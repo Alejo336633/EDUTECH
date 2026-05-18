@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EDUTECH</title>
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#1D9E75" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; background: #f9fafb; color: #111; }
+    #app { max-width: 600px; margin: 0 auto; padding: 1rem; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    .top-bar {
+      display: flex; align-items: center; gap: 10px;
+      padding: 0.5rem 0 1rem;
+      border-bottom: 1px solid #e5e7eb;
+      margin-bottom: 1.25rem;
+    }
+    .stat-pill {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 13px; font-weight: 600;
+      background: #f3f4f6; border-radius: 999px; padding: 4px 12px;
+    }
+    .stat-pill.lives i { color: #E24B4A; }
+    .stat-pill.streak i { color: #EF9F27; }
+    .stat-pill.xp i { color: #639922; }
+
+    .progress-bar-wrap { flex: 1; background: #e5e7eb; border-radius: 999px; height: 10px; overflow: hidden; }
+    .progress-bar-fill { height: 100%; border-radius: 999px; background: #1D9E75; transition: width 0.4s ease; }
+
+    .hero { text-align: center; padding: 1.5rem 0 0.5rem; }
+    .hero h1 { font-size: 28px; font-weight: 700; color: #1D9E75; margin-bottom: 4px; }
+    .hero p { font-size: 14px; color: #6b7280; }
+
+    .section-title {
+      font-size: 11px; font-weight: 700; letter-spacing: 1px;
+      color: #9ca3af; margin: 1.5rem 0 0.6rem; text-transform: uppercase;
+    }
+
+    .units-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+    .unit-card {
+      background: #fff; border: 1.5px solid #e5e7eb;
+      border-radius: 16px; padding: 1rem 0.75rem;
+      text-align: center; cursor: pointer;
+      transition: border-color 0.15s, transform 0.1s, box-shadow 0.15s;
+      position: relative;
+    }
+    .unit-card:hover:not(.locked) { border-color: #1D9E75; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(29,158,117,0.15); }
+    .unit-card.locked { opacity: 0.4; cursor: not-allowed; }
+    .unit-card.completed { border-color: #1D9E75; background: #f0fdf4; }
+    .unit-icon { font-size: 28px; margin-bottom: 6px; }
+    .unit-name { font-size: 13px; font-weight: 600; color: #111; margin-bottom: 3px; }
+    .unit-meta { font-size: 11px; color: #9ca3af; }
+    .unit-badge {
+      position: absolute; top: -8px; right: -8px;
+      font-size: 10px; padding: 2px 8px; border-radius: 999px; font-weight: 600;
+    }
+    .badge-new { background: #dbeafe; color: #1d4ed8; }
+    .badge-done { background: #dcfce7; color: #15803d; }
+    .badge-hard { background: #fef3c7; color: #92400e; }
+    .badge-locked { background: #f3f4f6; color: #9ca3af; }
+
+    .question-area { padding: 0.5rem 0; }
+    .question-label { font-size: 11px; font-weight: 700; color: #9ca3af; margin-bottom: 0.6rem; letter-spacing: 1px; text-transform: uppercase; }
+    .question-text { font-size: 26px; font-weight: 700; color: #111; margin-bottom: 1.5rem; line-height: 1.3; }
+
+    .choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.25rem; }
+    .choice-btn {
+      background: #fff; border: 1.5px solid #e5e7eb;
+      border-radius: 12px; padding: 14px 10px;
+      font-size: 20px; font-weight: 700; color: #111;
+      cursor: pointer; transition: all 0.12s; text-align: center;
+    }
+    .choice-btn:hover:not(:disabled) { border-color: #1D9E75; background: #f0fdf4; color: #1D9E75; }
+    .choice-btn.correct { background: #dcfce7; border-color: #16a34a; color: #15803d; }
+    .choice-btn.wrong { background: #fee2e2; border-color: #dc2626; color: #991b1b; }
+    .choice-btn:disabled { cursor: not-allowed; }
+
+    .fill-input {
+      width: 100%; font-size: 28px; font-weight: 700; text-align: center;
+      padding: 14px; border-radius: 12px;
+      border: 1.5px solid #e5e7eb; background: #fff; color: #111;
+      margin-bottom: 1.25rem; outline: none;
+    }
+    .fill-input:focus { border-color: #1D9E75; }
+
+    .feedback-bar {
+      border-radius: 12px; padding: 12px 16px;
+      font-size: 14px; font-weight: 600; margin-bottom: 1rem;
+      display: none; align-items: center; gap: 10px;
+    }
+    .feedback-bar.correct-fb { background: #dcfce7; color: #15803d; display: flex; }
+    .feedback-bar.wrong-fb { background: #fee2e2; color: #991b1b; display: flex; }
+
+    .btn-primary {
+      width: 100%; padding: 14px; background: #1D9E75; border: none;
+      border-radius: 12px; font-size: 16px; font-weight: 700; color: #fff;
+      cursor: pointer; transition: background 0.15s, transform 0.08s;
+    }
+    .btn-primary:hover { background: #15803d; }
+    .btn-primary:active { transform: scale(0.98); }
+    .btn-primary:disabled { background: #e5e7eb; color: #9ca3af; cursor: not-allowed; }
+
+    .btn-secondary {
+      width: 100%; padding: 12px; background: transparent;
+      border: 1.5px solid #e5e7eb; border-radius: 12px;
+      font-size: 15px; font-weight: 600; color: #374151;
+      cursor: pointer; transition: background 0.12s; margin-top: 10px;
+    }
+    .btn-secondary:hover { background: #f3f4f6; }
+
+    .result-screen { text-align: center; padding: 2.5rem 0; }
+    .result-icon { font-size: 56px; margin-bottom: 1rem; }
+    .result-title { font-size: 24px; font-weight: 700; margin-bottom: 0.5rem; color: #111; }
+    .result-sub { font-size: 15px; color: #6b7280; margin-bottom: 2rem; }
+    .result-stats { display: flex; justify-content: center; gap: 2.5rem; margin-bottom: 2rem; }
+    .result-stat .val { font-size: 26px; font-weight: 700; color: #1D9E75; }
+    .result-stat .lbl { font-size: 11px; color: #9ca3af; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .xp-toast {
+      position: fixed; top: 20px; right: 16px;
+      background: #dcfce7; color: #15803d; border: 1.5px solid #16a34a;
+      border-radius: 12px; padding: 8px 16px;
+      font-size: 14px; font-weight: 700;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 999;
+    }
+    .xp-toast.show { opacity: 1; }
+  </style>
+</head>
+<body>
+<div id="app">
+  <div class="xp-toast" id="xp-toast">+10 XP</div>
+
+  <!-- HOME -->
+  <div id="home" class="screen active">
+    <div class="top-bar">
+      <div class="stat-pill streak"><i class="ti ti-flame"></i><span id="home-streak">0</span></div>
+      <div class="stat-pill xp"><i class="ti ti-bolt"></i><span id="home-xp">0 XP</span></div>
+      <div class="stat-pill lives"><i class="ti ti-heart"></i><span id="home-lives">5</span></div>
+    </div>
+    <div class="hero">
+      <div style="font-size:48px;margin-bottom:8px;">🧮</div>
+      <h1>EDUTECH</h1>
+      <p>Aprende matemática básica jugando</p>
+    </div>
+    <p class="section-title">Nivel 1 — Fundamentos</p>
+    <div class="units-grid" id="grid-1"></div>
+    <p class="section-title">Nivel 2 — Intermedio</p>
+    <div class="units-grid" id="grid-2"></div>
+    <p class="section-title">Nivel 3 — Avanzado</p>
+    <div class="units-grid" id="grid-3"></div>
+  </div>
+
+  <!-- EXERCISE -->
+  <div id="exercise" class="screen">
+    <div class="top-bar">
+      <button onclick="goHome()" style="background:none;border:none;cursor:pointer;padding:4px;color:#9ca3af;">
+        <i class="ti ti-x" style="font-size:20px;"></i>
+      </button>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progress-bar" style="width:0%"></div>
+      </div>
+      <div class="stat-pill lives"><i class="ti ti-heart"></i><span id="ex-lives">5</span></div>
+    </div>
+    <div class="question-area">
+      <p class="question-label" id="q-label">PREGUNTA</p>
+      <p class="question-text" id="q-text"></p>
+      <div id="q-body"></div>
+      <div class="feedback-bar" id="feedback-bar">
+        <i id="fb-icon" style="font-size:18px;"></i>
+        <span id="fb-text"></span>
+      </div>
+      <button class="btn-primary" id="check-btn" disabled onclick="checkAnswer()">Comprobar</button>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="result" class="screen">
+    <div class="result-screen">
+      <div class="result-icon" id="result-icon">🎉</div>
+      <h2 class="result-title" id="result-title">¡Lección completada!</h2>
+      <p class="result-sub" id="result-sub"></p>
+      <div class="result-stats">
+        <div class="result-stat"><div class="val" id="res-xp">+0 XP</div><div class="lbl">XP ganado</div></div>
+        <div class="result-stat"><div class="val" id="res-correct">0/0</div><div class="lbl">Correctas</div></div>
+        <div class="result-stat"><div class="val" id="res-streak">0</div><div class="lbl">Racha</div></div>
+      </div>
+      <button class="btn-primary" onclick="goHome()">Seguir aprendiendo</button>
+      <button class="btn-secondary" onclick="retryLesson()">Reintentar lección</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const UNITS = [
+  { id:'suma', name:'Suma', icon:'➕', tier:1, req:[],
+    questions:[
+      {type:'choice',text:'3 + 4 = ?',answer:7,choices:[5,6,7,8]},
+      {type:'choice',text:'12 + 9 = ?',answer:21,choices:[19,20,21,22]},
+      {type:'fill',text:'25 + 17 = ?',answer:42},
+      {type:'choice',text:'7 + 8 = ?',answer:15,choices:[13,14,15,16]},
+      {type:'fill',text:'46 + 38 = ?',answer:84},
+    ]
+  },
+  { id:'resta', name:'Resta', icon:'➖', tier:1, req:[],
+    questions:[
+      {type:'choice',text:'10 − 4 = ?',answer:6,choices:[5,6,7,8]},
+      {type:'choice',text:'20 − 13 = ?',answer:7,choices:[6,7,8,9]},
+      {type:'fill',text:'50 − 27 = ?',answer:23},
+      {type:'choice',text:'15 − 8 = ?',answer:7,choices:[5,6,7,9]},
+      {type:'fill',text:'93 − 46 = ?',answer:47},
+    ]
+  },
+  { id:'numeros', name:'Números', icon:'🔢', tier:1, req:[],
+    questions:[
+      {type:'choice',text:'¿Cuál es el mayor? 47, 74, 44, 77',answer:77,choices:[47,74,44,77]},
+      {type:'choice',text:'¿Cuál es el menor? 23, 32, 13, 31',answer:13,choices:[23,32,13,31]},
+      {type:'fill',text:'¿El doble de 18?',answer:36},
+      {type:'choice',text:'¿Antecesor de 100?',answer:99,choices:[98,99,101,100]},
+      {type:'fill',text:'¿La mitad de 64?',answer:32},
+    ]
+  },
+  { id:'mult', name:'Multiplicación', icon:'✖️', tier:2, req:['suma','resta'],
+    questions:[
+      {type:'choice',text:'3 × 4 = ?',answer:12,choices:[10,11,12,13]},
+      {type:'choice',text:'6 × 7 = ?',answer:42,choices:[40,41,42,43]},
+      {type:'fill',text:'8 × 9 = ?',answer:72},
+      {type:'choice',text:'5 × 5 = ?',answer:25,choices:[20,23,25,30]},
+      {type:'fill',text:'12 × 6 = ?',answer:72},
+    ]
+  },
+  { id:'div', name:'División', icon:'➗', tier:2, req:['mult'],
+    questions:[
+      {type:'choice',text:'12 ÷ 4 = ?',answer:3,choices:[2,3,4,5]},
+      {type:'choice',text:'20 ÷ 5 = ?',answer:4,choices:[3,4,5,6]},
+      {type:'fill',text:'36 ÷ 6 = ?',answer:6},
+      {type:'choice',text:'42 ÷ 7 = ?',answer:6,choices:[5,6,7,8]},
+      {type:'fill',text:'81 ÷ 9 = ?',answer:9},
+    ]
+  },
+  { id:'fracciones', name:'Fracciones', icon:'½', tier:2, req:['mult'],
+    questions:[
+      {type:'choice',text:'½ de 20 = ?',answer:10,choices:[5,8,10,12]},
+      {type:'choice',text:'¼ de 40 = ?',answer:10,choices:[8,10,12,15]},
+      {type:'fill',text:'¾ de 24 = ?',answer:18},
+      {type:'choice',text:'⅓ de 30 = ?',answer:10,choices:[9,10,11,12]},
+      {type:'fill',text:'½ de 58 = ?',answer:29},
+    ]
+  },
+  { id:'decimales', name:'Decimales', icon:'📍', tier:2, req:['div'],
+    questions:[
+      {type:'choice',text:'0.5 + 0.3 = ?',answer:0.8,choices:[0.7,0.8,0.9,1.0]},
+      {type:'choice',text:'1.5 × 2 = ?',answer:3,choices:[2.5,3,3.5,4]},
+      {type:'choice',text:'2.4 ÷ 2 = ?',answer:1.2,choices:[1.0,1.1,1.2,1.3]},
+      {type:'fill',text:'3.6 + 1.4 = ?',answer:5},
+      {type:'choice',text:'0.25 × 4 = ?',answer:1,choices:[0.5,0.75,1,1.25]},
+    ]
+  },
+  { id:'porcentajes', name:'Porcentajes', icon:'%', tier:3, req:['fracciones','decimales'],
+    questions:[
+      {type:'choice',text:'10% de 80 = ?',answer:8,choices:[6,7,8,10]},
+      {type:'choice',text:'25% de 200 = ?',answer:50,choices:[25,40,50,75]},
+      {type:'fill',text:'50% de 130 = ?',answer:65},
+      {type:'choice',text:'20% de 150 = ?',answer:30,choices:[25,30,35,40]},
+      {type:'fill',text:'15% de 60 = ?',answer:9},
+    ]
+  },
+  { id:'potencias', name:'Potencias', icon:'🔺', tier:3, req:['mult'],
+    questions:[
+      {type:'choice',text:'2³ = ?',answer:8,choices:[6,7,8,9]},
+      {type:'choice',text:'5² = ?',answer:25,choices:[10,20,25,30]},
+      {type:'fill',text:'3³ = ?',answer:27},
+      {type:'choice',text:'4² = ?',answer:16,choices:[8,12,16,20]},
+      {type:'fill',text:'2⁵ = ?',answer:32},
+    ]
+  },
+  { id:'geometria', name:'Geometría', icon:'📐', tier:3, req:['mult','decimales'],
+    questions:[
+      {type:'choice',text:'Área de cuadrado lado 6 = ?',answer:36,choices:[24,30,36,42]},
+      {type:'choice',text:'Perímetro triángulo equilátero lado 5 = ?',answer:15,choices:[10,12,15,20]},
+      {type:'fill',text:'Área rectángulo 8×4 = ?',answer:32},
+      {type:'choice',text:'Diámetro círculo radio 7 = ?',answer:14,choices:[7,10,14,21]},
+      {type:'fill',text:'Perímetro cuadrado lado 9 = ?',answer:36},
+    ]
+  },
+  { id:'mix', name:'Desafío final', icon:'🌟', tier:3, req:['porcentajes','potencias','geometria'],
+    questions:[
+      {type:'choice',text:'(3 + 4) × 2 = ?',answer:14,choices:[10,12,14,16]},
+      {type:'fill',text:'15 + 27 − 8 = ?',answer:34},
+      {type:'choice',text:'2⁴ + 10% de 100 = ?',answer:26,choices:[24,25,26,28]},
+      {type:'fill',text:'Área cuadrado lado 7 = ?',answer:49},
+      {type:'choice',text:'30% de 90 = ?',answer:27,choices:[24,27,30,33]},
+      {type:'fill',text:'6 × 7 − 12 = ?',answer:30},
+    ]
+  },
+];
+
+let state = {
+  xp: 0, lives: 5, streak: 0, completed: {},
+  currentUnit: null, qIndex: 0, correct: 0,
+  answered: false, selectedAnswer: null,
+};
+
+function isUnlocked(unit) { return unit.req.every(r => state.completed[r]); }
+
+function renderHome() {
+  document.getElementById('home-xp').textContent = state.xp + ' XP';
+  document.getElementById('home-lives').textContent = state.lives;
+  document.getElementById('home-streak').textContent = state.streak;
+  [1,2,3].forEach(tier => {
+    const grid = document.getElementById('grid-' + tier);
+    grid.innerHTML = '';
+    UNITS.filter(u => u.tier === tier).forEach(u => {
+      const done = !!state.completed[u.id];
+      const unlocked = isUnlocked(u);
+      const card = document.createElement('div');
+      card.className = 'unit-card' + (done ? ' completed' : '') + (!unlocked ? ' locked' : '');
+      const badgeClass = done ? 'badge-done' : (!unlocked ? 'badge-locked' : tier === 3 ? 'badge-hard' : 'badge-new');
+      const badgeText = done ? '✓ Listo' : (!unlocked ? '🔒' : tier === 3 ? 'Avanzado' : 'Nuevo');
+      const stars = done ? '★★★' : (unlocked ? '☆☆☆' : '— — —');
+      card.innerHTML = `
+        <span class="unit-badge ${badgeClass}">${badgeText}</span>
+        <div class="unit-icon">${u.icon}</div>
+        <div class="unit-name">${u.name}</div>
+        <div class="unit-meta">${stars}</div>
+      `;
+      if (unlocked) card.addEventListener('click', () => startUnit(u.id));
+      grid.appendChild(card);
+    });
+  });
+}
+
+function startUnit(id) {
+  state.currentUnit = id; state.qIndex = 0; state.correct = 0;
+  state.answered = false; state.selectedAnswer = null;
+  showScreen('exercise'); renderQuestion();
+}
+
+function renderQuestion() {
+  const unit = UNITS.find(u => u.id === state.currentUnit);
+  const q = unit.questions[state.qIndex];
+  const total = unit.questions.length;
+  document.getElementById('ex-lives').textContent = state.lives;
+  document.getElementById('progress-bar').style.width = (state.qIndex / total * 100) + '%';
+  document.getElementById('q-label').textContent = `PREGUNTA ${state.qIndex + 1} DE ${total}`;
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('feedback-bar').className = 'feedback-bar';
+  document.getElementById('check-btn').textContent = 'Comprobar';
+  document.getElementById('check-btn').disabled = true;
+  state.answered = false; state.selectedAnswer = null;
+  const body = document.getElementById('q-body');
+  if (q.type === 'choice') {
+    const shuffled = [...q.choices].sort(() => Math.random() - 0.5);
+    body.innerHTML = `<div class="choices-grid">${shuffled.map(c =>
+      `<button class="choice-btn" onclick="selectChoice(this,${c})">${c}</button>`
+    ).join('')}</div>`;
+  } else {
+    body.innerHTML = `<input class="fill-input" type="number" id="fill-input" placeholder="?" oninput="onFillInput(this)" />`;
+    setTimeout(() => document.getElementById('fill-input')?.focus(), 50);
+  }
+}
+
+function selectChoice(btn, val) {
+  if (state.answered) return;
+  document.querySelectorAll('.choice-btn').forEach(b => {
+    b.style.borderColor = ''; b.style.background = ''; b.style.color = '';
+  });
+  btn.style.borderColor = '#1D9E75'; btn.style.background = '#f0fdf4'; btn.style.color = '#1D9E75';
+  state.selectedAnswer = val;
+  document.getElementById('check-btn').disabled = false;
+}
+
+function onFillInput(input) {
+  document.getElementById('check-btn').disabled = input.value.trim() === '';
+  state.selectedAnswer = input.value.trim() === '' ? null : Number(input.value);
+}
+
+function checkAnswer() {
+  if (state.answered) { nextQuestion(); return; }
+  state.answered = true;
+  const unit = UNITS.find(u => u.id === state.currentUnit);
+  const q = unit.questions[state.qIndex];
+  const correct = Math.abs(Number(state.selectedAnswer) - Number(q.answer)) < 0.001;
+  const fb = document.getElementById('feedback-bar');
+  if (correct) {
+    state.correct++;
+    fb.className = 'feedback-bar correct-fb';
+    document.getElementById('fb-icon').className = 'ti ti-circle-check';
+    document.getElementById('fb-text').textContent = '¡Correcto! 🎉';
+    if (q.type === 'choice') {
+      document.querySelectorAll('.choice-btn').forEach(b => {
+        if (Math.abs(Number(b.textContent) - Number(q.answer)) < 0.001) b.classList.add('correct');
+      });
+    } else {
+      const inp = document.getElementById('fill-input');
+      if (inp) { inp.style.borderColor = '#16a34a'; inp.style.background = '#dcfce7'; }
+    }
+    showXpToast('+10 XP');
+  } else {
+    state.lives = Math.max(0, state.lives - 1);
+    document.getElementById('ex-lives').textContent = state.lives;
+    fb.className = 'feedback-bar wrong-fb';
+    document.getElementById('fb-icon').className = 'ti ti-circle-x';
+    document.getElementById('fb-text').textContent = `Incorrecto. La respuesta era ${q.answer}`;
+    if (q.type === 'choice') {
+      document.querySelectorAll('.choice-btn').forEach(b => {
+        if (Math.abs(Number(b.textContent) - Number(q.answer)) < 0.001) b.classList.add('correct');
+        else if (Math.abs(Number(b.textContent) - Number(state.selectedAnswer)) < 0.001) b.classList.add('wrong');
+      });
+    } else {
+      const inp = document.getElementById('fill-input');
+      if (inp) { inp.style.borderColor = '#dc2626'; inp.style.background = '#fee2e2'; }
+    }
+  }
+  document.querySelectorAll('.choice-btn, .fill-input').forEach(el => el.disabled = true);
+  const btn = document.getElementById('check-btn');
+  btn.textContent = 'Siguiente →'; btn.disabled = false;
+}
+
+function nextQuestion() {
+  const unit = UNITS.find(u => u.id === state.currentUnit);
+  state.qIndex++;
+  if (state.qIndex >= unit.questions.length || state.lives === 0) finishLesson();
+  else renderQuestion();
+}
+
+function finishLesson() {
+  const unit = UNITS.find(u => u.id === state.currentUnit);
+  const total = unit.questions.length;
+  const won = state.correct >= Math.ceil(total * 0.6);
+  const xpEarned = state.correct * 10;
+  state.xp += xpEarned;
+  if (won) { state.streak++; state.completed[state.currentUnit] = true; }
+  else state.streak = Math.max(0, state.streak - 1);
+  document.getElementById('result-icon').textContent = won ? '🎉' : '😅';
+  document.getElementById('result-title').textContent = won ? '¡Lección completada!' : 'Sigue intentando';
+  document.getElementById('result-sub').textContent = won
+    ? `Respondiste ${state.correct} de ${total} correctamente`
+    : `Respondiste ${state.correct} de ${total}. ¡Puedes mejorar!`;
+  document.getElementById('res-xp').textContent = '+' + xpEarned + ' XP';
+  document.getElementById('res-correct').textContent = state.correct + '/' + total;
+  document.getElementById('res-streak').textContent = state.streak;
+  showScreen('result');
+}
+
+function showXpToast(msg) {
+  const t = document.getElementById('xp-toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 1500);
+}
+
+function retryLesson() { startUnit(state.currentUnit); }
+
+function goHome() {
+  if (state.lives === 0) state.lives = 5;
+  showScreen('home'); renderHome();
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
+
+renderHome();
+</script>
+</body>
+</html>
