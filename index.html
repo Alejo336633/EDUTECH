@@ -7,6 +7,7 @@
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#1D9E75" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: system-ui, sans-serif; background: #f9fafb; color: #111; }
@@ -113,6 +114,16 @@
     }
     .btn-secondary:hover { background: #f3f4f6; }
 
+    .btn-google {
+      width: 100%; padding: 13px; background: #fff;
+      border: 1.5px solid #e5e7eb; border-radius: 12px;
+      font-size: 15px; font-weight: 600; color: #374151;
+      cursor: pointer; transition: background 0.12s;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      margin-top: 10px;
+    }
+    .btn-google:hover { background: #f3f4f6; }
+
     .result-screen { text-align: center; padding: 2.5rem 0; }
     .result-icon { font-size: 56px; margin-bottom: 1rem; }
     .result-title { font-size: 24px; font-weight: 700; margin-bottom: 0.5rem; color: #111; }
@@ -120,6 +131,53 @@
     .result-stats { display: flex; justify-content: center; gap: 2.5rem; margin-bottom: 2rem; }
     .result-stat .val { font-size: 26px; font-weight: 700; color: #1D9E75; }
     .result-stat .lbl { font-size: 11px; color: #9ca3af; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* AUTH */
+    .auth-card {
+      background: #fff; border: 1.5px solid #e5e7eb;
+      border-radius: 20px; padding: 2rem 1.5rem;
+      max-width: 400px; margin: 2rem auto;
+    }
+    .auth-logo { text-align: center; margin-bottom: 1.5rem; }
+    .auth-logo h1 { font-size: 28px; font-weight: 700; color: #1D9E75; }
+    .auth-logo p { font-size: 14px; color: #6b7280; margin-top: 4px; }
+    .auth-tabs { display: flex; gap: 0; margin-bottom: 1.5rem; border: 1.5px solid #e5e7eb; border-radius: 10px; overflow: hidden; }
+    .auth-tab {
+      flex: 1; padding: 10px; font-size: 14px; font-weight: 600;
+      border: none; background: transparent; cursor: pointer;
+      color: #6b7280; transition: background 0.12s, color 0.12s;
+    }
+    .auth-tab.active { background: #1D9E75; color: #fff; }
+    .auth-field { margin-bottom: 1rem; }
+    .auth-field label { font-size: 12px; font-weight: 600; color: #6b7280; display: block; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .auth-field input {
+      width: 100%; padding: 12px; border-radius: 10px;
+      border: 1.5px solid #e5e7eb; font-size: 15px;
+      outline: none; transition: border-color 0.12s;
+      background: #fff; color: #111;
+    }
+    .auth-field input:focus { border-color: #1D9E75; }
+    .auth-error { background: #fee2e2; color: #991b1b; border-radius: 10px; padding: 10px 14px; font-size: 13px; font-weight: 600; margin-bottom: 1rem; display: none; }
+    .auth-success { background: #dcfce7; color: #15803d; border-radius: 10px; padding: 10px 14px; font-size: 13px; font-weight: 600; margin-bottom: 1rem; display: none; }
+    .divider { display: flex; align-items: center; gap: 10px; margin: 1rem 0; color: #9ca3af; font-size: 13px; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #e5e7eb; }
+
+    .user-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.5rem 0 1rem; border-bottom: 1px solid #e5e7eb; margin-bottom: 1rem;
+    }
+    .user-info { display: flex; align-items: center; gap: 8px; }
+    .user-avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: #1D9E75; display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: #fff;
+    }
+    .user-name { font-size: 13px; font-weight: 600; color: #111; }
+    .logout-btn {
+      font-size: 12px; color: #9ca3af; background: none; border: none;
+      cursor: pointer; padding: 4px 8px; border-radius: 6px;
+    }
+    .logout-btn:hover { background: #f3f4f6; color: #374151; }
 
     .xp-toast {
       position: fixed; top: 20px; right: 16px;
@@ -129,21 +187,64 @@
       opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 999;
     }
     .xp-toast.show { opacity: 1; }
+
+    .saving-indicator {
+      font-size: 11px; color: #9ca3af; text-align: center;
+      margin-top: 8px; height: 16px;
+    }
   </style>
 </head>
 <body>
 <div id="app">
   <div class="xp-toast" id="xp-toast">+10 XP</div>
 
+  <!-- AUTH -->
+  <div id="auth" class="screen active">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <div style="font-size:44px;margin-bottom:6px;">🧮</div>
+        <h1>EDUTECH</h1>
+        <p>Aprende matemática básica jugando</p>
+      </div>
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchTab('login')">Iniciar sesión</button>
+        <button class="auth-tab" onclick="switchTab('register')">Registrarse</button>
+      </div>
+      <div class="auth-error" id="auth-error"></div>
+      <div class="auth-success" id="auth-success"></div>
+      <div class="auth-field">
+        <label>Correo</label>
+        <input type="email" id="auth-email" placeholder="tu@correo.com" />
+      </div>
+      <div class="auth-field">
+        <label>Contraseña</label>
+        <input type="password" id="auth-password" placeholder="••••••••" />
+      </div>
+      <button class="btn-primary" id="auth-btn" onclick="handleAuth()">Iniciar sesión</button>
+      <div class="divider">o</div>
+      <button class="btn-google" onclick="loginGoogle()">
+        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.34-8.16 2.34-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+        Continuar con Google
+      </button>
+    </div>
+  </div>
+
   <!-- HOME -->
-  <div id="home" class="screen active">
+  <div id="home" class="screen">
+    <div class="user-bar">
+      <div class="user-info">
+        <div class="user-avatar" id="user-avatar">?</div>
+        <span class="user-name" id="user-name">Usuario</span>
+      </div>
+      <button class="logout-btn" onclick="logout()"><i class="ti ti-logout"></i> Salir</button>
+    </div>
     <div class="top-bar">
       <div class="stat-pill streak"><i class="ti ti-flame"></i><span id="home-streak">0</span></div>
       <div class="stat-pill xp"><i class="ti ti-bolt"></i><span id="home-xp">0 XP</span></div>
       <div class="stat-pill lives"><i class="ti ti-heart"></i><span id="home-lives">5</span></div>
     </div>
     <div class="hero">
-      <div style="font-size:48px;margin-bottom:8px;">🧮</div>
+      <div style="font-size:40px;margin-bottom:6px;">🧮</div>
       <h1>EDUTECH</h1>
       <p>Aprende matemática básica jugando</p>
     </div>
@@ -153,6 +254,7 @@
     <div class="units-grid" id="grid-2"></div>
     <p class="section-title">Nivel 3 — Avanzado</p>
     <div class="units-grid" id="grid-3"></div>
+    <div class="saving-indicator" id="saving-indicator"></div>
   </div>
 
   <!-- EXERCISE -->
@@ -196,6 +298,13 @@
 </div>
 
 <script>
+const SUPABASE_URL = 'https://bbwrodlnqqhzlignusja.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJid3JvZGxucXFoemxpZ251c2phIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMTM5NzgsImV4cCI6MjA5NDc4OTk3OH0.H5bppDdb4b_dHecSefEC9AE94kdE_zMreSiIzK57je8';
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let currentUser = null;
+let authMode = 'login';
+
 const UNITS = [
   { id:'suma', name:'Suma', icon:'➕', tier:1, req:[],
     questions:[
@@ -280,7 +389,7 @@ const UNITS = [
   },
   { id:'geometria', name:'Geometría', icon:'📐', tier:3, req:['mult','decimales'],
     questions:[
-      {type:'choice',text:'Área de cuadrado lado 6 = ?',answer:36,choices:[24,30,36,42]},
+      {type:'choice',text:'Área cuadrado lado 6 = ?',answer:36,choices:[24,30,36,42]},
       {type:'choice',text:'Perímetro triángulo equilátero lado 5 = ?',answer:15,choices:[10,12,15,20]},
       {type:'fill',text:'Área rectángulo 8×4 = ?',answer:32},
       {type:'choice',text:'Diámetro círculo radio 7 = ?',answer:14,choices:[7,10,14,21]},
@@ -305,12 +414,122 @@ let state = {
   answered: false, selectedAnswer: null,
 };
 
+// AUTH
+supabase.auth.onAuthStateChange(async (event, session) => {
+  if (session?.user) {
+    currentUser = session.user;
+    await loadProfile();
+    showScreen('home');
+    renderHome();
+  } else {
+    currentUser = null;
+    showScreen('auth');
+  }
+});
+
+function switchTab(mode) {
+  authMode = mode;
+  document.querySelectorAll('.auth-tab').forEach((t, i) => {
+    t.classList.toggle('active', (i === 0 && mode === 'login') || (i === 1 && mode === 'register'));
+  });
+  document.getElementById('auth-btn').textContent = mode === 'login' ? 'Iniciar sesión' : 'Registrarse';
+  document.getElementById('auth-error').style.display = 'none';
+  document.getElementById('auth-success').style.display = 'none';
+}
+
+async function handleAuth() {
+  const email = document.getElementById('auth-email').value.trim();
+  const password = document.getElementById('auth-password').value;
+  const errEl = document.getElementById('auth-error');
+  const sucEl = document.getElementById('auth-success');
+  errEl.style.display = 'none';
+  sucEl.style.display = 'none';
+
+  if (!email || !password) {
+    errEl.textContent = 'Por favor completa todos los campos.';
+    errEl.style.display = 'block'; return;
+  }
+
+  const btn = document.getElementById('auth-btn');
+  btn.disabled = true;
+  btn.textContent = 'Cargando...';
+
+  if (authMode === 'register') {
+    const { error } = await supabase.auth.signUp({ email, password });
+    if (error) {
+      errEl.textContent = error.message; errEl.style.display = 'block';
+    } else {
+      sucEl.textContent = '¡Registro exitoso! Revisa tu correo para confirmar.';
+      sucEl.style.display = 'block';
+    }
+  } else {
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) {
+      errEl.textContent = 'Correo o contraseña incorrectos.';
+      errEl.style.display = 'block';
+    }
+  }
+  btn.disabled = false;
+  btn.textContent = authMode === 'login' ? 'Iniciar sesión' : 'Registrarse';
+}
+
+async function loginGoogle() {
+  await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: window.location.origin }
+  });
+}
+
+async function logout() {
+  await supabase.auth.signOut();
+  state = { xp:0, lives:5, streak:0, completed:{}, currentUnit:null, qIndex:0, correct:0, answered:false, selectedAnswer:null };
+  showScreen('auth');
+}
+
+async function loadProfile() {
+  const { data } = await supabase.from('profiles').select('*').eq('id', currentUser.id).single();
+  if (data) {
+    state.xp = data.xp || 0;
+    state.lives = data.lives || 5;
+    state.streak = data.streak || 0;
+    state.completed = data.completed || {};
+  } else {
+    await supabase.from('profiles').insert({
+      id: currentUser.id,
+      email: currentUser.email,
+      xp: 0, lives: 5, streak: 0, completed: {}
+    });
+  }
+}
+
+async function saveProfile() {
+  if (!currentUser) return;
+  const ind = document.getElementById('saving-indicator');
+  ind.textContent = 'Guardando...';
+  await supabase.from('profiles').upsert({
+    id: currentUser.id,
+    email: currentUser.email,
+    xp: state.xp,
+    lives: state.lives,
+    streak: state.streak,
+    completed: state.completed,
+    updated_at: new Date().toISOString()
+  });
+  ind.textContent = '✓ Progreso guardado';
+  setTimeout(() => ind.textContent = '', 2000);
+}
+
 function isUnlocked(unit) { return unit.req.every(r => state.completed[r]); }
 
 function renderHome() {
+  const email = currentUser?.email || '';
+  const initial = email.charAt(0).toUpperCase();
+  document.getElementById('user-avatar').textContent = initial;
+  document.getElementById('user-name').textContent = email;
   document.getElementById('home-xp').textContent = state.xp + ' XP';
   document.getElementById('home-lives').textContent = state.lives;
   document.getElementById('home-streak').textContent = state.streak;
+
   [1,2,3].forEach(tier => {
     const grid = document.getElementById('grid-' + tier);
     grid.innerHTML = '';
@@ -436,6 +655,7 @@ function finishLesson() {
   state.xp += xpEarned;
   if (won) { state.streak++; state.completed[state.currentUnit] = true; }
   else state.streak = Math.max(0, state.streak - 1);
+  saveProfile();
   document.getElementById('result-icon').textContent = won ? '🎉' : '😅';
   document.getElementById('result-title').textContent = won ? '¡Lección completada!' : 'Sigue intentando';
   document.getElementById('result-sub').textContent = won
@@ -466,8 +686,6 @@ function showScreen(id) {
 }
 
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
-
-renderHome();
 </script>
 </body>
 </html>
