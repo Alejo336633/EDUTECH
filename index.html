@@ -207,6 +207,9 @@
         <p>Aprende matemática básica jugando</p>
       </div>
       <div class="auth-tabs">
+  <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Iniciar sesión</button>
+  <button class="auth-tab" id="tab-register" onclick="switchTab('register')">Registrarse</button>
+</div>
         <button class="auth-tab active" onclick="switchTab('login')">Iniciar sesión</button>
         <button class="auth-tab" onclick="switchTab('register')">Registrarse</button>
       </div>
@@ -429,9 +432,8 @@ supabase.auth.onAuthStateChange(async (event, session) => {
 
 function switchTab(mode) {
   authMode = mode;
-  document.querySelectorAll('.auth-tab').forEach((t, i) => {
-    t.classList.toggle('active', (i === 0 && mode === 'login') || (i === 1 && mode === 'register'));
-  });
+  document.getElementById('tab-login').classList.toggle('active', mode === 'login');
+  document.getElementById('tab-register').classList.toggle('active', mode === 'register');
   document.getElementById('auth-btn').textContent = mode === 'login' ? 'Iniciar sesión' : 'Registrarse';
   document.getElementById('auth-error').style.display = 'none';
   document.getElementById('auth-success').style.display = 'none';
