@@ -197,7 +197,7 @@
 const SUPABASE_URL = 'https://bbwrodlnqqhzlignusja.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJid3JvZGxucXFoemxpZ251c2phIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMTM5NzgsImV4cCI6MjA5NDc4OTk3OH0.H5bppDdb4b_dHecSefEC9AE94kdE_zMreSiIzK57je8';
 const { createClient } = window.supabase; // v2
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+const sbClient = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let currentUser = null;
 let authMode = 'login';
@@ -285,7 +285,7 @@ const UNITS = [
 
 let state = { xp:0, lives:5, streak:0, completed:{}, currentUnit:null, qIndex:0, correct:0, answered:false, selectedAnswer:null };
 
-supabase.auth.onAuthStateChange(async (event, session) => {
+sbClient.auth.onAuthStateChange(async (event, session) => {
   if (session?.user) {
     currentUser = session.user;
     await loadProfile();
@@ -316,11 +316,11 @@ async function handleAuth() {
   const btn = document.getElementById('auth-btn');
   btn.disabled = true; btn.textContent = 'Cargando...';
   if (authMode === 'register') {
-    const { error } = await supabase.auth.signUp({ email, password });
+    const { error } = await sbClient.auth.signUp({ email, password });
     if (error) { errEl.textContent = error.message; errEl.style.display = 'block'; }
     else { sucEl.textContent = '¡Registro exitoso! Ya puedes usar EDUTECH.'; sucEl.style.display = 'block'; }
   } else {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { error } = await sbClient.auth.signInWithPassword({ email, password });
     if (error) { errEl.textContent = 'Correo o contraseña incorrectos.'; errEl.style.display = 'block'; }
   }
   btn.disabled = false;
@@ -328,25 +328,25 @@ async function handleAuth() {
 }
 
 async function loginGoogle() {
-  await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.origin } });
+  await sbClient.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.origin } });
 }
 
 async function logout() {
-  await supabase.auth.signOut();
+  await sbClient.auth.signOut();
   state = { xp:0, lives:5, streak:0, completed:{}, currentUnit:null, qIndex:0, correct:0, answered:false, selectedAnswer:null };
 }
 
 async function loadProfile() {
-  const { data } = await supabase.from('profiles').select('*').eq('id', currentUser.id).single();
+  const { data } = await sbClient.from('profiles').select('*').eq('id', currentUser.id).single();
   if (data) { state.xp = data.xp||0; state.lives = data.lives||5; state.streak = data.streak||0; state.completed = data.completed||{}; }
-  else { await supabase.from('profiles').insert({ id: currentUser.id, email: currentUser.email, xp:0, lives:5, streak:0, completed:{} }); }
+  else { await sbClient.from('profiles').insert({ id: currentUser.id, email: currentUser.email, xp:0, lives:5, streak:0, completed:{} }); }
 }
 
 async function saveProfile() {
   if (!currentUser) return;
   const ind = document.getElementById('saving-indicator');
   ind.textContent = 'Guardando...';
-  await supabase.from('profiles').upsert({ id: currentUser.id, email: currentUser.email, xp: state.xp, lives: state.lives, streak: state.streak, completed: state.completed, updated_at: new Date().toISOString() });
+  await sbClient.from('profiles').upsert({ id: currentUser.id, email: currentUser.email, xp: state.xp, lives: state.lives, streak: state.streak, completed: state.completed, updated_at: new Date().toISOString() });
   ind.textContent = '✓ Progreso guardado';
   setTimeout(() => ind.textContent = '', 2000);
 }
