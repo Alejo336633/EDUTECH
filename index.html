@@ -102,7 +102,6 @@
     .level-badge { display: inline-block; background: #fef3c7; color: #92400e; border-radius: 999px; padding: 6px 16px; font-size: 14px; font-weight: 700; }
     .profile-edit input { width: 100%; padding: 12px; border-radius: 10px; border: 1.5px solid #e5e7eb; font-size: 15px; outline: none; background: #fff; color: #111; margin-bottom: 10px; }
     .profile-edit input:focus { border-color: #1D9E75; }
-    .lessons-progress { margin-top: 1rem; }
     .lesson-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f3f4f6; }
     .lesson-row:last-child { border-bottom: none; }
     .lesson-info { display: flex; align-items: center; gap: 10px; }
@@ -113,12 +112,10 @@
     .status-locked { background: #f3f4f6; color: #9ca3af; }
     .status-available { background: #dbeafe; color: #1d4ed8; }
     .nav-bar { display: flex; justify-content: space-around; padding: 0.75rem 0 0.25rem; border-top: 1px solid #e5e7eb; margin-top: 1rem; }
-    .nav-btn { display: flex; flex-direction: column; align-items: center; gap: 3px; background: none; border: none; cursor: pointer; color: #9ca3af; font-size: 11px; font-weight: 600; padding: 6px 16px; border-radius: 10px; transition: color 0.12s, background 0.12s; }
+    .nav-btn { display: flex; flex-direction: column; align-items: center; gap: 3px; background: none; border: none; cursor: pointer; color: #9ca3af; font-size: 11px; font-weight: 600; padding: 6px 12px; border-radius: 10px; transition: color 0.12s, background 0.12s; }
     .nav-btn i { font-size: 22px; }
     .nav-btn.active { color: #1D9E75; background: #f0fdf4; }
     .nav-btn:hover { color: #1D9E75; }
-
-    /* RANKING */
     .rank-header { text-align: center; padding: 1rem 0 0.5rem; }
     .rank-header h2 { font-size: 22px; font-weight: 700; color: #111; margin-bottom: 4px; }
     .rank-header p { font-size: 14px; color: #6b7280; }
@@ -136,7 +133,7 @@
     .podium-block-2 { height: 50px; background: #9ca3af; }
     .podium-block-3 { height: 36px; background: #cd7c3a; }
     .rank-list { background: #fff; border: 1.5px solid #e5e7eb; border-radius: 16px; overflow: hidden; margin-bottom: 1rem; }
-    .rank-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #f3f4f6; transition: background 0.1s; }
+    .rank-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #f3f4f6; }
     .rank-row:last-child { border-bottom: none; }
     .rank-row.me { background: #f0fdf4; }
     .rank-pos { font-size: 16px; font-weight: 700; color: #9ca3af; width: 28px; text-align: center; }
@@ -152,6 +149,52 @@
     .my-rank-card { background: #f0fdf4; border: 1.5px solid #1D9E75; border-radius: 12px; padding: 12px 16px; margin-bottom: 1rem; display: flex; align-items: center; gap: 12px; }
     .my-rank-pos { font-size: 24px; font-weight: 700; color: #1D9E75; }
     .my-rank-label { font-size: 12px; color: #6b7280; }
+
+    /* MODO VELOCIDAD */
+    .speed-intro { text-align: center; padding: 2rem 0; }
+    .speed-intro h2 { font-size: 24px; font-weight: 700; color: #111; margin-bottom: 8px; }
+    .speed-intro p { font-size: 15px; color: #6b7280; margin-bottom: 2rem; }
+    .speed-rules { background: #fff; border: 1.5px solid #e5e7eb; border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; text-align: left; }
+    .speed-rule { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #f3f4f6; font-size: 14px; color: #374151; }
+    .speed-rule:last-child { border-bottom: none; }
+    .speed-rule i { font-size: 18px; color: #1D9E75; }
+    .speed-top-bar { display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 0 1rem; border-bottom: 1px solid #e5e7eb; margin-bottom: 1.25rem; }
+    .timer-pill { display: flex; align-items: center; gap: 6px; background: #fee2e2; border-radius: 999px; padding: 6px 14px; font-size: 16px; font-weight: 700; color: #dc2626; }
+    .timer-pill.warning { background: #fef3c7; color: #92400e; }
+    .timer-pill.ok { background: #dcfce7; color: #15803d; }
+    .score-pill { display: flex; align-items: center; gap: 6px; background: #f0fdf4; border-radius: 999px; padding: 6px 14px; font-size: 16px; font-weight: 700; color: #1D9E75; }
+    .speed-q-text { font-size: 28px; font-weight: 700; color: #111; text-align: center; margin: 1.5rem 0; line-height: 1.3; }
+    .speed-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem; }
+    .speed-choice { background: #fff; border: 1.5px solid #e5e7eb; border-radius: 12px; padding: 16px; font-size: 22px; font-weight: 700; color: #111; cursor: pointer; transition: all 0.1s; text-align: center; }
+    .speed-choice:hover { border-color: #1D9E75; background: #f0fdf4; color: #1D9E75; transform: scale(1.02); }
+    .speed-choice.correct { background: #dcfce7; border-color: #16a34a; color: #15803d; }
+    .speed-choice.wrong { background: #fee2e2; border-color: #dc2626; color: #991b1b; }
+    .speed-choice:disabled { cursor: not-allowed; transform: none; }
+    .speed-streak { text-align: center; font-size: 13px; color: #9ca3af; margin-bottom: 1rem; }
+    .speed-result { text-align: center; padding: 2rem 0; }
+    .speed-result-icon { font-size: 56px; margin-bottom: 1rem; }
+    .speed-result-title { font-size: 24px; font-weight: 700; color: #111; margin-bottom: 0.5rem; }
+    .speed-result-sub { font-size: 15px; color: #6b7280; margin-bottom: 2rem; }
+    .speed-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 2rem; }
+    .speed-stat { background: #f9fafb; border-radius: 12px; padding: 12px 8px; text-align: center; }
+    .speed-stat .val { font-size: 24px; font-weight: 700; color: #1D9E75; }
+    .speed-stat .lbl { font-size: 11px; color: #9ca3af; margin-top: 2px; text-transform: uppercase; }
+
+    /* IA */
+    .ai-screen { padding: 0.5rem 0; }
+    .ai-top { display: flex; align-items: center; gap: 10px; padding: 0.5rem 0 1rem; border-bottom: 1px solid #e5e7eb; margin-bottom: 1.25rem; }
+    .ai-badge { background: linear-gradient(135deg, #1D9E75, #0F6E56); color: #fff; border-radius: 999px; padding: 4px 12px; font-size: 12px; font-weight: 700; }
+    .ai-topic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.5rem; }
+    .ai-topic-btn { background: #fff; border: 1.5px solid #e5e7eb; border-radius: 12px; padding: 14px 10px; font-size: 14px; font-weight: 600; color: #111; cursor: pointer; transition: all 0.12s; text-align: center; }
+    .ai-topic-btn:hover { border-color: #1D9E75; background: #f0fdf4; color: #1D9E75; }
+    .ai-topic-btn.selected { border-color: #1D9E75; background: #f0fdf4; color: #1D9E75; }
+    .ai-loading { text-align: center; padding: 2rem; }
+    .ai-loading-icon { font-size: 40px; margin-bottom: 1rem; animation: spin 1s linear infinite; }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .ai-question-area { padding: 0.5rem 0; }
+    .ai-question-text { font-size: 24px; font-weight: 700; color: #111; margin-bottom: 1.5rem; line-height: 1.3; }
+    .ai-hint { background: #fef3c7; border-radius: 10px; padding: 10px 14px; font-size: 13px; color: #92400e; margin-bottom: 1rem; display: none; }
+    .ai-counter { font-size: 13px; color: #9ca3af; text-align: center; margin-bottom: 1rem; }
   </style>
 </head>
 <body>
@@ -188,7 +231,7 @@
   <!-- HOME -->
   <div id="home" class="screen">
     <div class="user-bar">
-      <div style="display:flex;align-items:center;cursor:pointer;" onclick="showScreen('profile');renderProfile();">
+      <div style="display:flex;align-items:center;cursor:pointer;" onclick="switchNav('profile')">
         <div class="user-avatar" id="user-avatar">?</div>
         <span class="user-name" id="user-name">Usuario</span>
       </div>
@@ -213,25 +256,135 @@
     <div class="saving-indicator" id="saving-indicator"></div>
     <div class="nav-bar">
       <button class="nav-btn active" id="nav-home" onclick="switchNav('home')"><i class="ti ti-home"></i>Inicio</button>
+      <button class="nav-btn" id="nav-speed" onclick="switchNav('speed')"><i class="ti ti-bolt"></i>Velocidad</button>
+      <button class="nav-btn" id="nav-ai" onclick="switchNav('ai')"><i class="ti ti-brain"></i>IA</button>
       <button class="nav-btn" id="nav-ranking" onclick="switchNav('ranking')"><i class="ti ti-trophy"></i>Ranking</button>
       <button class="nav-btn" id="nav-profile" onclick="switchNav('profile')"><i class="ti ti-user"></i>Perfil</button>
     </div>
   </div>
 
+  <!-- MODO VELOCIDAD -->
+  <div id="speed" class="screen">
+    <div id="speed-intro-view">
+      <div class="speed-intro">
+        <div style="font-size:48px;margin-bottom:8px;">⚡</div>
+        <h2>Modo Velocidad</h2>
+        <p>Responde el mayor número de preguntas en 60 segundos</p>
+      </div>
+      <div class="speed-rules">
+        <div class="speed-rule"><i class="ti ti-clock"></i> 60 segundos para responder</div>
+        <div class="speed-rule"><i class="ti ti-check"></i> +10 XP por cada respuesta correcta</div>
+        <div class="speed-rule"><i class="ti ti-bolt"></i> Racha de aciertos da XP extra</div>
+        <div class="speed-rule"><i class="ti ti-arrow-right"></i> Las preguntas cambian automáticamente</div>
+      </div>
+      <button class="btn-primary" onclick="startSpeedMode()">¡Empezar!</button>
+    </div>
+    <div id="speed-game-view" style="display:none;">
+      <div class="speed-top-bar">
+        <div class="timer-pill" id="timer-pill"><i class="ti ti-clock"></i><span id="timer-count">60</span>s</div>
+        <div class="score-pill"><i class="ti ti-star"></i><span id="speed-score">0</span> correctas</div>
+        <button onclick="endSpeedMode()" style="background:none;border:none;cursor:pointer;color:#9ca3af;"><i class="ti ti-x" style="font-size:20px;"></i></button>
+      </div>
+      <div class="speed-streak" id="speed-streak-display">Racha: 0 🔥</div>
+      <div class="speed-q-text" id="speed-q-text"></div>
+      <div class="speed-choices" id="speed-choices"></div>
+    </div>
+    <div id="speed-result-view" style="display:none;">
+      <div class="speed-result">
+        <div class="speed-result-icon" id="speed-result-icon">⚡</div>
+        <div class="speed-result-title" id="speed-result-title">¡Tiempo!</div>
+        <div class="speed-result-sub" id="speed-result-sub"></div>
+        <div class="speed-stats">
+          <div class="speed-stat"><div class="val" id="sr-correct">0</div><div class="lbl">Correctas</div></div>
+          <div class="speed-stat"><div class="val" id="sr-xp">0</div><div class="lbl">XP ganado</div></div>
+          <div class="speed-stat"><div class="val" id="sr-streak">0</div><div class="lbl">Mejor racha</div></div>
+        </div>
+        <button class="btn-primary" onclick="startSpeedMode()">Jugar de nuevo</button>
+        <button class="btn-secondary" onclick="switchNav('home')">Volver al inicio</button>
+      </div>
+    </div>
+    <div class="nav-bar">
+      <button class="nav-btn" id="nav-home2" onclick="switchNav('home')"><i class="ti ti-home"></i>Inicio</button>
+      <button class="nav-btn active" id="nav-speed2" onclick="switchNav('speed')"><i class="ti ti-bolt"></i>Velocidad</button>
+      <button class="nav-btn" id="nav-ai2" onclick="switchNav('ai')"><i class="ti ti-brain"></i>IA</button>
+      <button class="nav-btn" id="nav-ranking2" onclick="switchNav('ranking')"><i class="ti ti-trophy"></i>Ranking</button>
+      <button class="nav-btn" id="nav-profile2" onclick="switchNav('profile')"><i class="ti ti-user"></i>Perfil</button>
+    </div>
+  </div>
+
+  <!-- MODO IA -->
+  <div id="ai" class="screen">
+    <div class="ai-screen">
+      <div class="ai-top">
+        <button onclick="switchNav('home')" style="background:none;border:none;cursor:pointer;color:#9ca3af;"><i class="ti ti-arrow-left" style="font-size:20px;"></i></button>
+        <span style="font-size:16px;font-weight:700;color:#111;flex:1;">Modo IA</span>
+        <span class="ai-badge">✨ Powered by Claude</span>
+      </div>
+      <div id="ai-topic-select">
+        <p class="section-title">Elige un tema</p>
+        <div class="ai-topic-grid">
+          <button class="ai-topic-btn" onclick="selectAiTopic('suma y resta')">➕➖ Suma y Resta</button>
+          <button class="ai-topic-btn" onclick="selectAiTopic('multiplicación y división')">✖️➗ Mult. y División</button>
+          <button class="ai-topic-btn" onclick="selectAiTopic('fracciones y decimales')">½ Fracciones</button>
+          <button class="ai-topic-btn" onclick="selectAiTopic('porcentajes')">% Porcentajes</button>
+          <button class="ai-topic-btn" onclick="selectAiTopic('potencias y raíces')">🔺 Potencias</button>
+          <button class="ai-topic-btn" onclick="selectAiTopic('geometría básica')">📐 Geometría</button>
+          <button class="ai-topic-btn" onclick="selectAiTopic('matemática mixta')">🌟 Mixto</button>
+          <button class="ai-topic-btn" onclick="selectAiTopic('problemas de la vida real')">🧩 Problemas</button>
+        </div>
+      </div>
+      <div id="ai-loading" class="ai-loading" style="display:none;">
+        <div class="ai-loading-icon">🤖</div>
+        <p style="color:#6b7280;font-size:14px;">Generando preguntas con IA...</p>
+      </div>
+      <div id="ai-question-area" class="ai-question-area" style="display:none;">
+        <div class="ai-counter" id="ai-counter">Pregunta 1 de 5</div>
+        <div class="ai-question-text" id="ai-q-text"></div>
+        <div class="ai-hint" id="ai-hint"></div>
+        <div class="choices-grid" id="ai-choices"></div>
+        <div class="feedback-bar" id="ai-feedback">
+          <i id="ai-fb-icon" style="font-size:18px;"></i>
+          <span id="ai-fb-text"></span>
+        </div>
+        <button class="btn-primary" id="ai-next-btn" disabled onclick="aiNextQuestion()">Comprobar</button>
+        <button class="btn-secondary" onclick="showAiHint()" id="ai-hint-btn">💡 Pista</button>
+      </div>
+      <div id="ai-result" style="display:none;">
+        <div class="speed-result">
+          <div class="speed-result-icon">🤖</div>
+          <div class="speed-result-title">¡Sesión IA completada!</div>
+          <div class="speed-result-sub" id="ai-result-sub"></div>
+          <div class="speed-stats">
+            <div class="speed-stat"><div class="val" id="ai-res-correct">0</div><div class="lbl">Correctas</div></div>
+            <div class="speed-stat"><div class="val" id="ai-res-xp">0</div><div class="lbl">XP ganado</div></div>
+          </div>
+          <button class="btn-primary" onclick="resetAiMode()">Nueva sesión</button>
+          <button class="btn-secondary" onclick="switchNav('home')">Volver al inicio</button>
+        </div>
+      </div>
+    </div>
+    <div class="nav-bar">
+      <button class="nav-btn" id="nav-home3" onclick="switchNav('home')"><i class="ti ti-home"></i>Inicio</button>
+      <button class="nav-btn" id="nav-speed3" onclick="switchNav('speed')"><i class="ti ti-bolt"></i>Velocidad</button>
+      <button class="nav-btn active" id="nav-ai3" onclick="switchNav('ai')"><i class="ti ti-brain"></i>IA</button>
+      <button class="nav-btn" id="nav-ranking3" onclick="switchNav('ranking')"><i class="ti ti-trophy"></i>Ranking</button>
+      <button class="nav-btn" id="nav-profile3" onclick="switchNav('profile')"><i class="ti ti-user"></i>Perfil</button>
+    </div>
+  </div>
+
   <!-- RANKING -->
   <div id="ranking" class="screen">
-    <div class="rank-header">
-      <h2>🏆 Ranking Global</h2>
-      <p>Los mejores estudiantes de EDUTECH</p>
-    </div>
+    <div class="rank-header"><h2>🏆 Ranking Global</h2><p>Los mejores estudiantes de EDUTECH</p></div>
     <div id="my-rank-card"></div>
     <div id="rank-podium" class="rank-podium"></div>
     <p class="section-title">Tabla completa</p>
     <div class="rank-list" id="rank-list"><div class="rank-loading">Cargando ranking...</div></div>
     <div class="nav-bar">
-      <button class="nav-btn" id="nav-home2" onclick="switchNav('home')"><i class="ti ti-home"></i>Inicio</button>
-      <button class="nav-btn active" id="nav-ranking2" onclick="switchNav('ranking')"><i class="ti ti-trophy"></i>Ranking</button>
-      <button class="nav-btn" id="nav-profile2" onclick="switchNav('profile')"><i class="ti ti-user"></i>Perfil</button>
+      <button class="nav-btn" id="nav-home4" onclick="switchNav('home')"><i class="ti ti-home"></i>Inicio</button>
+      <button class="nav-btn" id="nav-speed4" onclick="switchNav('speed')"><i class="ti ti-bolt"></i>Velocidad</button>
+      <button class="nav-btn" id="nav-ai4" onclick="switchNav('ai')"><i class="ti ti-brain"></i>IA</button>
+      <button class="nav-btn active" id="nav-ranking4" onclick="switchNav('ranking')"><i class="ti ti-trophy"></i>Ranking</button>
+      <button class="nav-btn" id="nav-profile4" onclick="switchNav('profile')"><i class="ti ti-user"></i>Perfil</button>
     </div>
   </div>
 
@@ -253,11 +406,13 @@
       </div>
     </div>
     <p class="section-title">Progreso de lecciones</p>
-    <div class="profile-card lessons-progress" id="lessons-list"></div>
+    <div class="profile-card" id="lessons-list"></div>
     <div class="nav-bar">
-      <button class="nav-btn" id="nav-home3" onclick="switchNav('home')"><i class="ti ti-home"></i>Inicio</button>
-      <button class="nav-btn" id="nav-ranking3" onclick="switchNav('ranking')"><i class="ti ti-trophy"></i>Ranking</button>
-      <button class="nav-btn active" id="nav-profile3" onclick="switchNav('profile')"><i class="ti ti-user"></i>Perfil</button>
+      <button class="nav-btn" id="nav-home5" onclick="switchNav('home')"><i class="ti ti-home"></i>Inicio</button>
+      <button class="nav-btn" id="nav-speed5" onclick="switchNav('speed')"><i class="ti ti-bolt"></i>Velocidad</button>
+      <button class="nav-btn" id="nav-ai5" onclick="switchNav('ai')"><i class="ti ti-brain"></i>IA</button>
+      <button class="nav-btn" id="nav-ranking5" onclick="switchNav('ranking')"><i class="ti ti-trophy"></i>Ranking</button>
+      <button class="nav-btn active" id="nav-profile5" onclick="switchNav('profile')"><i class="ti ti-user"></i>Perfil</button>
     </div>
   </div>
 
@@ -300,8 +455,9 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const { createClient } = window.supabase; // v2
 const sbClient = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-let currentUser = null;
-let authMode = 'login';
+let currentUser = null, authMode = 'login';
+let speedTimer = null, speedTimeLeft = 60, speedScore = 0, speedStreak = 0, speedBestStreak = 0;
+let aiQuestions = [], aiIndex = 0, aiCorrect = 0, aiAnswered = false, aiSelected = null;
 
 const UNITS = [
   { id:'suma', name:'Suma', icon:'➕', tier:1, req:[], questions:[
@@ -321,68 +477,70 @@ const UNITS = [
   { id:'numeros', name:'Números', icon:'🔢', tier:1, req:[], questions:[
     {type:'choice',text:'¿Cuál es el mayor? 47, 74, 44, 77',answer:77,choices:[47,74,44,77]},
     {type:'choice',text:'¿Cuál es el menor? 23, 32, 13, 31',answer:13,choices:[23,32,13,31]},
-    {type:'fill',text:'¿El doble de 18?',answer:36},
+    {type:'choice',text:'¿El doble de 18?',answer:36,choices:[16,28,36,40]},
     {type:'choice',text:'¿Antecesor de 100?',answer:99,choices:[98,99,101,100]},
-    {type:'fill',text:'¿La mitad de 64?',answer:32},
+    {type:'choice',text:'¿La mitad de 64?',answer:32,choices:[28,30,32,34]},
   ]},
   { id:'mult', name:'Multiplicación', icon:'✖️', tier:2, req:['suma','resta'], questions:[
     {type:'choice',text:'3 × 4 = ?',answer:12,choices:[10,11,12,13]},
     {type:'choice',text:'6 × 7 = ?',answer:42,choices:[40,41,42,43]},
-    {type:'fill',text:'8 × 9 = ?',answer:72},
+    {type:'choice',text:'8 × 9 = ?',answer:72,choices:[63,70,72,81]},
     {type:'choice',text:'5 × 5 = ?',answer:25,choices:[20,23,25,30]},
-    {type:'fill',text:'12 × 6 = ?',answer:72},
+    {type:'choice',text:'12 × 6 = ?',answer:72,choices:[62,68,72,78]},
   ]},
   { id:'div', name:'División', icon:'➗', tier:2, req:['mult'], questions:[
     {type:'choice',text:'12 ÷ 4 = ?',answer:3,choices:[2,3,4,5]},
     {type:'choice',text:'20 ÷ 5 = ?',answer:4,choices:[3,4,5,6]},
-    {type:'fill',text:'36 ÷ 6 = ?',answer:6},
+    {type:'choice',text:'36 ÷ 6 = ?',answer:6,choices:[5,6,7,8]},
     {type:'choice',text:'42 ÷ 7 = ?',answer:6,choices:[5,6,7,8]},
-    {type:'fill',text:'81 ÷ 9 = ?',answer:9},
+    {type:'choice',text:'81 ÷ 9 = ?',answer:9,choices:[7,8,9,10]},
   ]},
   { id:'fracciones', name:'Fracciones', icon:'½', tier:2, req:['mult'], questions:[
     {type:'choice',text:'½ de 20 = ?',answer:10,choices:[5,8,10,12]},
     {type:'choice',text:'¼ de 40 = ?',answer:10,choices:[8,10,12,15]},
-    {type:'fill',text:'¾ de 24 = ?',answer:18},
+    {type:'choice',text:'¾ de 24 = ?',answer:18,choices:[12,15,18,20]},
     {type:'choice',text:'⅓ de 30 = ?',answer:10,choices:[9,10,11,12]},
-    {type:'fill',text:'½ de 58 = ?',answer:29},
+    {type:'choice',text:'½ de 58 = ?',answer:29,choices:[25,27,29,31]},
   ]},
   { id:'decimales', name:'Decimales', icon:'📍', tier:2, req:['div'], questions:[
     {type:'choice',text:'0.5 + 0.3 = ?',answer:0.8,choices:[0.7,0.8,0.9,1.0]},
     {type:'choice',text:'1.5 × 2 = ?',answer:3,choices:[2.5,3,3.5,4]},
     {type:'choice',text:'2.4 ÷ 2 = ?',answer:1.2,choices:[1.0,1.1,1.2,1.3]},
-    {type:'fill',text:'3.6 + 1.4 = ?',answer:5},
+    {type:'choice',text:'3.6 + 1.4 = ?',answer:5,choices:[4,4.5,5,5.5]},
     {type:'choice',text:'0.25 × 4 = ?',answer:1,choices:[0.5,0.75,1,1.25]},
   ]},
   { id:'porcentajes', name:'Porcentajes', icon:'%', tier:3, req:['fracciones','decimales'], questions:[
     {type:'choice',text:'10% de 80 = ?',answer:8,choices:[6,7,8,10]},
     {type:'choice',text:'25% de 200 = ?',answer:50,choices:[25,40,50,75]},
-    {type:'fill',text:'50% de 130 = ?',answer:65},
+    {type:'choice',text:'50% de 130 = ?',answer:65,choices:[55,60,65,70]},
     {type:'choice',text:'20% de 150 = ?',answer:30,choices:[25,30,35,40]},
-    {type:'fill',text:'15% de 60 = ?',answer:9},
+    {type:'choice',text:'15% de 60 = ?',answer:9,choices:[6,8,9,12]},
   ]},
   { id:'potencias', name:'Potencias', icon:'🔺', tier:3, req:['mult'], questions:[
     {type:'choice',text:'2³ = ?',answer:8,choices:[6,7,8,9]},
     {type:'choice',text:'5² = ?',answer:25,choices:[10,20,25,30]},
-    {type:'fill',text:'3³ = ?',answer:27},
+    {type:'choice',text:'3³ = ?',answer:27,choices:[18,24,27,30]},
     {type:'choice',text:'4² = ?',answer:16,choices:[8,12,16,20]},
-    {type:'fill',text:'2⁵ = ?',answer:32},
+    {type:'choice',text:'2⁵ = ?',answer:32,choices:[16,24,32,64]},
   ]},
   { id:'geometria', name:'Geometría', icon:'📐', tier:3, req:['mult','decimales'], questions:[
     {type:'choice',text:'Área cuadrado lado 6 = ?',answer:36,choices:[24,30,36,42]},
     {type:'choice',text:'Perímetro triángulo equilátero lado 5 = ?',answer:15,choices:[10,12,15,20]},
-    {type:'fill',text:'Área rectángulo 8×4 = ?',answer:32},
+    {type:'choice',text:'Área rectángulo 8×4 = ?',answer:32,choices:[24,28,32,36]},
     {type:'choice',text:'Diámetro círculo radio 7 = ?',answer:14,choices:[7,10,14,21]},
-    {type:'fill',text:'Perímetro cuadrado lado 9 = ?',answer:36},
+    {type:'choice',text:'Perímetro cuadrado lado 9 = ?',answer:36,choices:[18,27,36,45]},
   ]},
   { id:'mix', name:'Desafío final', icon:'🌟', tier:3, req:['porcentajes','potencias','geometria'], questions:[
     {type:'choice',text:'(3 + 4) × 2 = ?',answer:14,choices:[10,12,14,16]},
-    {type:'fill',text:'15 + 27 − 8 = ?',answer:34},
+    {type:'choice',text:'15 + 27 − 8 = ?',answer:34,choices:[30,32,34,36]},
     {type:'choice',text:'2⁴ + 10% de 100 = ?',answer:26,choices:[24,25,26,28]},
-    {type:'fill',text:'Área cuadrado lado 7 = ?',answer:49},
+    {type:'choice',text:'Área cuadrado lado 7 = ?',answer:49,choices:[28,42,49,56]},
     {type:'choice',text:'30% de 90 = ?',answer:27,choices:[24,27,30,33]},
-    {type:'fill',text:'6 × 7 − 12 = ?',answer:30},
+    {type:'choice',text:'6 × 7 − 12 = ?',answer:30,choices:[24,28,30,32]},
   ]},
 ];
+
+const ALL_SPEED_QUESTIONS = UNITS.flatMap(u => u.questions.filter(q => q.type === 'choice'));
 
 let state = { xp:0, lives:5, streak:0, completed:{}, username:'', currentUnit:null, qIndex:0, correct:0, answered:false, selectedAnswer:null };
 
@@ -395,238 +553,373 @@ function getLevel(xp) {
 }
 
 sbClient.auth.onAuthStateChange(async (event, session) => {
-  if (session?.user) {
-    currentUser = session.user;
-    await loadProfile();
-    showScreen('home');
-    renderHome();
-  } else {
-    currentUser = null;
-    showScreen('auth');
-  }
+  if (session?.user) { currentUser = session.user; await loadProfile(); showScreen('home'); renderHome(); }
+  else { currentUser = null; showScreen('auth'); }
 });
 
 function switchTab(mode) {
   authMode = mode;
-  document.getElementById('tab-login').classList.toggle('active', mode === 'login');
-  document.getElementById('tab-register').classList.toggle('active', mode === 'register');
-  document.getElementById('auth-btn').textContent = mode === 'login' ? 'Iniciar sesión' : 'Registrarse';
-  document.getElementById('auth-error').style.display = 'none';
-  document.getElementById('auth-success').style.display = 'none';
+  document.getElementById('tab-login').classList.toggle('active', mode==='login');
+  document.getElementById('tab-register').classList.toggle('active', mode==='register');
+  document.getElementById('auth-btn').textContent = mode==='login' ? 'Iniciar sesión' : 'Registrarse';
+  document.getElementById('auth-error').style.display='none';
+  document.getElementById('auth-success').style.display='none';
 }
 
 async function handleAuth() {
-  const email = document.getElementById('auth-email').value.trim();
-  const password = document.getElementById('auth-password').value;
-  const errEl = document.getElementById('auth-error');
-  const sucEl = document.getElementById('auth-success');
-  errEl.style.display = 'none'; sucEl.style.display = 'none';
-  if (!email || !password) { errEl.textContent = 'Por favor completa todos los campos.'; errEl.style.display = 'block'; return; }
-  const btn = document.getElementById('auth-btn');
-  btn.disabled = true; btn.textContent = 'Cargando...';
-  if (authMode === 'register') {
-    const { error } = await sbClient.auth.signUp({ email, password });
-    if (error) { errEl.textContent = error.message; errEl.style.display = 'block'; }
-    else { sucEl.textContent = '¡Registro exitoso! Ya puedes usar EDUTECH.'; sucEl.style.display = 'block'; }
+  const email=document.getElementById('auth-email').value.trim(), password=document.getElementById('auth-password').value;
+  const errEl=document.getElementById('auth-error'), sucEl=document.getElementById('auth-success');
+  errEl.style.display='none'; sucEl.style.display='none';
+  if (!email||!password){errEl.textContent='Por favor completa todos los campos.';errEl.style.display='block';return;}
+  const btn=document.getElementById('auth-btn'); btn.disabled=true; btn.textContent='Cargando...';
+  if (authMode==='register'){
+    const {error}=await sbClient.auth.signUp({email,password});
+    if(error){errEl.textContent=error.message;errEl.style.display='block';}
+    else{sucEl.textContent='¡Registro exitoso!';sucEl.style.display='block';}
   } else {
-    const { error } = await sbClient.auth.signInWithPassword({ email, password });
-    if (error) { errEl.textContent = 'Correo o contraseña incorrectos.'; errEl.style.display = 'block'; }
+    const {error}=await sbClient.auth.signInWithPassword({email,password});
+    if(error){errEl.textContent='Correo o contraseña incorrectos.';errEl.style.display='block';}
   }
-  btn.disabled = false;
-  btn.textContent = authMode === 'login' ? 'Iniciar sesión' : 'Registrarse';
+  btn.disabled=false; btn.textContent=authMode==='login'?'Iniciar sesión':'Registrarse';
 }
 
-async function loginGoogle() {
-  await sbClient.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: 'https://edutech-dusky-ten.vercel.app' } });
-}
-
-async function logout() {
-  await sbClient.auth.signOut();
-  state = { xp:0, lives:5, streak:0, completed:{}, username:'', currentUnit:null, qIndex:0, correct:0, answered:false, selectedAnswer:null };
-}
+async function loginGoogle() { await sbClient.auth.signInWithOAuth({provider:'google',options:{redirectTo:'https://edutech-dusky-ten.vercel.app'}}); }
+async function logout() { await sbClient.auth.signOut(); state={xp:0,lives:5,streak:0,completed:{},username:'',currentUnit:null,qIndex:0,correct:0,answered:false,selectedAnswer:null}; }
 
 async function loadProfile() {
-  const { data } = await sbClient.from('profiles').select('*').eq('id', currentUser.id).single();
-  if (data) { state.xp=data.xp||0; state.lives=data.lives||5; state.streak=data.streak||0; state.completed=data.completed||{}; state.username=data.username||''; }
-  else { await sbClient.from('profiles').insert({ id: currentUser.id, email: currentUser.email, xp:0, lives:5, streak:0, completed:{}, username:'' }); }
+  const {data}=await sbClient.from('profiles').select('*').eq('id',currentUser.id).single();
+  if(data){state.xp=data.xp||0;state.lives=data.lives||5;state.streak=data.streak||0;state.completed=data.completed||{};state.username=data.username||'';}
+  else{await sbClient.from('profiles').insert({id:currentUser.id,email:currentUser.email,xp:0,lives:5,streak:0,completed:{},username:''});}
 }
 
 async function saveProfile() {
-  if (!currentUser) return;
-  const ind = document.getElementById('saving-indicator');
-  if (ind) ind.textContent = 'Guardando...';
-  await sbClient.from('profiles').upsert({ id: currentUser.id, email: currentUser.email, xp: state.xp, lives: state.lives, streak: state.streak, completed: state.completed, username: state.username, updated_at: new Date().toISOString() });
-  if (ind) { ind.textContent = '✓ Progreso guardado'; setTimeout(() => ind.textContent = '', 2000); }
+  if(!currentUser)return;
+  const ind=document.getElementById('saving-indicator');
+  if(ind)ind.textContent='Guardando...';
+  await sbClient.from('profiles').upsert({id:currentUser.id,email:currentUser.email,xp:state.xp,lives:state.lives,streak:state.streak,completed:state.completed,username:state.username,updated_at:new Date().toISOString()});
+  if(ind){ind.textContent='✓ Progreso guardado';setTimeout(()=>ind.textContent='',2000);}
 }
 
 async function saveUsername() {
-  const val = document.getElementById('profile-username-input').value.trim();
-  if (!val) return;
-  state.username = val;
-  await saveProfile();
-  renderProfile();
-  renderHome();
-  showXpToast('✓ Nombre guardado');
+  const val=document.getElementById('profile-username-input').value.trim();
+  if(!val)return; state.username=val; await saveProfile(); renderProfile(); renderHome(); showXpToast('✓ Nombre guardado');
 }
 
-async function renderRanking() {
-  const listEl = document.getElementById('rank-list');
-  const podiumEl = document.getElementById('rank-podium');
-  const myRankEl = document.getElementById('my-rank-card');
-  listEl.innerHTML = '<div class="rank-loading">Cargando ranking...</div>';
-  podiumEl.innerHTML = '';
-  myRankEl.innerHTML = '';
+// SPEED MODE
+function startSpeedMode() {
+  if(speedTimer) clearInterval(speedTimer);
+  speedTimeLeft=60; speedScore=0; speedStreak=0; speedBestStreak=0;
+  document.getElementById('speed-intro-view').style.display='none';
+  document.getElementById('speed-result-view').style.display='none';
+  document.getElementById('speed-game-view').style.display='block';
+  document.getElementById('timer-count').textContent=60;
+  document.getElementById('speed-score').textContent=0;
+  loadSpeedQuestion();
+  speedTimer = setInterval(() => {
+    speedTimeLeft--;
+    document.getElementById('timer-count').textContent=speedTimeLeft;
+    const pill=document.getElementById('timer-pill');
+    pill.className = speedTimeLeft>30?'timer-pill ok':speedTimeLeft>10?'timer-pill warning':'timer-pill';
+    if(speedTimeLeft<=0){clearInterval(speedTimer);endSpeedMode();}
+  }, 1000);
+}
 
-  const { data } = await sbClient.from('profiles').select('id, username, email, xp, streak, completed').order('xp', { ascending: false }).limit(50);
-  if (!data || data.length === 0) { listEl.innerHTML = '<div class="rank-loading">Aún no hay usuarios en el ranking.</div>'; return; }
+function loadSpeedQuestion() {
+  const q = ALL_SPEED_QUESTIONS[Math.floor(Math.random()*ALL_SPEED_QUESTIONS.length)];
+  document.getElementById('speed-q-text').textContent = q.text;
+  document.getElementById('speed-streak-display').textContent = `Racha: ${speedStreak} 🔥`;
+  const shuffled = [...q.choices].sort(()=>Math.random()-0.5);
+  const choicesEl = document.getElementById('speed-choices');
+  choicesEl.innerHTML = shuffled.map(c=>`<button class="speed-choice" onclick="speedAnswer(this,${c},${q.answer})">${c}</button>`).join('');
+}
 
-  const myPos = data.findIndex(u => u.id === currentUser.id) + 1;
-  if (myPos > 0) {
-    const me = data[myPos - 1];
-    const meName = me.username || me.email?.split('@')[0] || 'Tú';
-    myRankEl.innerHTML = `<div class="my-rank-card"><div class="my-rank-pos">#${myPos}</div><div><div style="font-size:14px;font-weight:700;color:#111;">Tu posición</div><div class="my-rank-label">${meName} · ${me.xp} XP</div></div></div>`;
+function speedAnswer(btn, val, answer) {
+  document.querySelectorAll('.speed-choice').forEach(b=>b.disabled=true);
+  const correct = Math.abs(val-answer)<0.001;
+  btn.classList.add(correct?'correct':'wrong');
+  if(!correct){
+    document.querySelectorAll('.speed-choice').forEach(b=>{
+      if(Math.abs(Number(b.textContent)-answer)<0.001) b.classList.add('correct');
+    });
   }
+  if(correct){
+    speedScore++; speedStreak++;
+    if(speedStreak>speedBestStreak) speedBestStreak=speedStreak;
+    const bonus = speedStreak>=5?20:speedStreak>=3?15:10;
+    state.xp+=bonus; showXpToast(`+${bonus} XP`);
+    document.getElementById('speed-score').textContent=speedScore;
+  } else { speedStreak=0; }
+  document.getElementById('speed-streak-display').textContent=`Racha: ${speedStreak} 🔥`;
+  setTimeout(loadSpeedQuestion, 600);
+}
 
-  const top3 = data.slice(0, 3);
-  const podiumOrder = top3.length >= 3 ? [top3[1], top3[0], top3[2]] : top3.length === 2 ? [top3[1], top3[0]] : [top3[0]];
-  const podiumClasses = top3.length >= 3 ? ['podium-2', 'podium-1', 'podium-3'] : top3.length === 2 ? ['podium-2', 'podium-1'] : ['podium-1'];
-  const blockClasses = top3.length >= 3 ? ['podium-block podium-block-2', 'podium-block podium-block-1', 'podium-block podium-block-3'] : ['podium-block podium-block-2', 'podium-block podium-block-1'];
-  const medals = ['🥈', '🥇', '🥉'];
+function endSpeedMode() {
+  if(speedTimer){clearInterval(speedTimer);speedTimer=null;}
+  document.getElementById('speed-game-view').style.display='none';
+  document.getElementById('speed-result-view').style.display='block';
+  const xpEarned = speedScore*10;
+  document.getElementById('speed-result-icon').textContent = speedScore>=15?'🏆':speedScore>=8?'⚡':'😅';
+  document.getElementById('speed-result-title').textContent = speedScore>=15?'¡Increíble!':speedScore>=8?'¡Muy bien!':'Sigue practicando';
+  document.getElementById('speed-result-sub').textContent = `Respondiste ${speedScore} preguntas correctamente`;
+  document.getElementById('sr-correct').textContent=speedScore;
+  document.getElementById('sr-xp').textContent='+'+xpEarned;
+  document.getElementById('sr-streak').textContent=speedBestStreak;
+  saveProfile();
+}
 
-  podiumEl.innerHTML = podiumOrder.map((u, i) => {
-    const name = u.username || u.email?.split('@')[0] || '?';
-    const initial = name.charAt(0).toUpperCase();
-    const crown = podiumClasses[i] === 'podium-1' ? '<div class="podium-crown">👑</div>' : '';
+// AI MODE
+async function selectAiTopic(topic) {
+  document.querySelectorAll('.ai-topic-btn').forEach(b=>b.classList.remove('selected'));
+  event.target.classList.add('selected');
+  document.getElementById('ai-topic-select').style.display='none';
+  document.getElementById('ai-loading').style.display='block';
+  document.getElementById('ai-question-area').style.display='none';
+  document.getElementById('ai-result').style.display='none';
+  aiQuestions=[]; aiIndex=0; aiCorrect=0;
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        messages:[{
+          role:'user',
+          content:`Genera exactamente 5 preguntas de matemática básica sobre el tema: "${topic}". 
+Responde ÚNICAMENTE con un JSON válido, sin texto adicional, sin markdown, sin explicaciones.
+El formato debe ser exactamente este array JSON:
+[
+  {"question":"¿Cuánto es 5 + 3?","choices":[6,7,8,9],"answer":8,"hint":"Suma los dos números"},
+  ...
+]
+Reglas: preguntas en español, 4 opciones numéricas por pregunta, una sola respuesta correcta, dificultad progresiva.`
+        }]
+      })
+    });
+    const data = await res.json();
+    const text = data.content[0].text.replace(/```json|```/g,'').trim();
+    aiQuestions = JSON.parse(text);
+    document.getElementById('ai-loading').style.display='none';
+    document.getElementById('ai-question-area').style.display='block';
+    showAiQuestion();
+  } catch(e) {
+    document.getElementById('ai-loading').style.display='none';
+    document.getElementById('ai-topic-select').style.display='block';
+    alert('Error generando preguntas. Intenta de nuevo.');
+  }
+}
+
+function showAiQuestion() {
+  if(aiIndex>=aiQuestions.length){finishAiMode();return;}
+  aiAnswered=false; aiSelected=null;
+  const q=aiQuestions[aiIndex];
+  document.getElementById('ai-counter').textContent=`Pregunta ${aiIndex+1} de ${aiQuestions.length}`;
+  document.getElementById('ai-q-text').textContent=q.question;
+  document.getElementById('ai-feedback').className='feedback-bar';
+  document.getElementById('ai-hint').style.display='none';
+  document.getElementById('ai-hint').textContent=q.hint||'';
+  document.getElementById('ai-next-btn').textContent='Comprobar';
+  document.getElementById('ai-next-btn').disabled=true;
+  const shuffled=[...q.choices].sort(()=>Math.random()-0.5);
+  document.getElementById('ai-choices').innerHTML=shuffled.map(c=>
+    `<button class="choice-btn" onclick="selectAiChoice(this,${c})">${c}</button>`
+  ).join('');
+}
+
+function selectAiChoice(btn, val) {
+  if(aiAnswered)return;
+  document.querySelectorAll('#ai-choices .choice-btn').forEach(b=>{b.style.borderColor='';b.style.background='';b.style.color='';});
+  btn.style.borderColor='#1D9E75'; btn.style.background='#f0fdf4'; btn.style.color='#1D9E75';
+  aiSelected=val; document.getElementById('ai-next-btn').disabled=false;
+}
+
+function aiNextQuestion() {
+  if(!aiAnswered){
+    aiAnswered=true;
+    const q=aiQuestions[aiIndex];
+    const correct=Math.abs(aiSelected-q.answer)<0.001;
+    const fb=document.getElementById('ai-feedback');
+    if(correct){
+      aiCorrect++; fb.className='feedback-bar correct-fb';
+      document.getElementById('ai-fb-icon').className='ti ti-circle-check';
+      document.getElementById('ai-fb-text').textContent='¡Correcto! 🎉';
+      document.querySelectorAll('#ai-choices .choice-btn').forEach(b=>{if(Math.abs(Number(b.textContent)-q.answer)<0.001)b.classList.add('correct');});
+      state.xp+=10; showXpToast('+10 XP');
+    } else {
+      fb.className='feedback-bar wrong-fb';
+      document.getElementById('ai-fb-icon').className='ti ti-circle-x';
+      document.getElementById('ai-fb-text').textContent=`Incorrecto. La respuesta era ${q.answer}`;
+      document.querySelectorAll('#ai-choices .choice-btn').forEach(b=>{
+        if(Math.abs(Number(b.textContent)-q.answer)<0.001)b.classList.add('correct');
+        else if(Math.abs(Number(b.textContent)-aiSelected)<0.001)b.classList.add('wrong');
+      });
+    }
+    document.querySelectorAll('#ai-choices .choice-btn').forEach(el=>el.disabled=true);
+    document.getElementById('ai-next-btn').textContent='Siguiente →';
+    document.getElementById('ai-next-btn').disabled=false;
+  } else {
+    aiIndex++;
+    showAiQuestion();
+  }
+}
+
+function showAiHint() {
+  const hintEl=document.getElementById('ai-hint');
+  hintEl.style.display='block';
+}
+
+function finishAiMode() {
+  document.getElementById('ai-question-area').style.display='none';
+  document.getElementById('ai-result').style.display='block';
+  const xpEarned=aiCorrect*10;
+  document.getElementById('ai-result-sub').textContent=`Respondiste ${aiCorrect} de ${aiQuestions.length} correctamente`;
+  document.getElementById('ai-res-correct').textContent=aiCorrect;
+  document.getElementById('ai-res-xp').textContent='+'+xpEarned;
+  saveProfile();
+}
+
+function resetAiMode() {
+  document.getElementById('ai-result').style.display='none';
+  document.getElementById('ai-topic-select').style.display='block';
+  document.querySelectorAll('.ai-topic-btn').forEach(b=>b.classList.remove('selected'));
+}
+
+// RANKING
+async function renderRanking() {
+  const listEl=document.getElementById('rank-list'), podiumEl=document.getElementById('rank-podium'), myRankEl=document.getElementById('my-rank-card');
+  listEl.innerHTML='<div class="rank-loading">Cargando ranking...</div>'; podiumEl.innerHTML=''; myRankEl.innerHTML='';
+  const {data}=await sbClient.from('profiles').select('id,username,email,xp,streak,completed').order('xp',{ascending:false}).limit(50);
+  if(!data||data.length===0){listEl.innerHTML='<div class="rank-loading">Aún no hay usuarios.</div>';return;}
+  const myPos=data.findIndex(u=>u.id===currentUser.id)+1;
+  if(myPos>0){
+    const me=data[myPos-1], meName=me.username||me.email?.split('@')[0]||'Tú';
+    myRankEl.innerHTML=`<div class="my-rank-card"><div class="my-rank-pos">#${myPos}</div><div><div style="font-size:14px;font-weight:700;color:#111;">Tu posición</div><div class="my-rank-label">${meName} · ${me.xp} XP</div></div></div>`;
+  }
+  const top3=data.slice(0,3);
+  const podiumOrder=top3.length>=3?[top3[1],top3[0],top3[2]]:top3.length===2?[top3[1],top3[0]]:[top3[0]];
+  const podiumClasses=top3.length>=3?['podium-2','podium-1','podium-3']:top3.length===2?['podium-2','podium-1']:['podium-1'];
+  const blockClasses=top3.length>=3?['podium-block podium-block-2','podium-block podium-block-1','podium-block podium-block-3']:['podium-block podium-block-2','podium-block podium-block-1'];
+  const medals=['🥈','🥇','🥉'];
+  podiumEl.innerHTML=podiumOrder.map((u,i)=>{
+    const name=u.username||u.email?.split('@')[0]||'?', initial=name.charAt(0).toUpperCase();
+    const crown=podiumClasses[i]==='podium-1'?'<div class="podium-crown">👑</div>':'';
     return `<div class="podium-item ${podiumClasses[i]}">${crown}<div class="podium-avatar ${podiumClasses[i]}">${initial}</div><div class="podium-name">${name}</div><div class="podium-xp">${u.xp} XP</div><div class="${blockClasses[i]}">${medals[i]}</div></div>`;
   }).join('');
-
-  listEl.innerHTML = data.map((u, i) => {
-    const name = u.username || u.email?.split('@')[0] || '?';
-    const initial = name.charAt(0).toUpperCase();
-    const isMe = u.id === currentUser.id;
-    const posClass = i === 0 ? 'top1' : i === 1 ? 'top2' : i === 2 ? 'top3' : '';
-    const posIcon = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i+1}`;
-    const completedCount = Object.keys(u.completed || {}).length;
-    return `<div class="rank-row ${isMe ? 'me' : ''}"><div class="rank-pos ${posClass}">${posIcon}</div><div class="rank-avatar">${initial}</div><div class="rank-info"><div class="rank-name">${name}${isMe ? ' (Tú)' : ''}</div><div class="rank-sub">${completedCount} lecciones · Racha ${u.streak}</div></div><div class="rank-xp">${u.xp} XP</div></div>`;
+  listEl.innerHTML=data.map((u,i)=>{
+    const name=u.username||u.email?.split('@')[0]||'?', initial=name.charAt(0).toUpperCase();
+    const isMe=u.id===currentUser.id, posClass=i===0?'top1':i===1?'top2':i===2?'top3':'';
+    const posIcon=i===0?'🥇':i===1?'🥈':i===2?'🥉':`#${i+1}`;
+    const completedCount=Object.keys(u.completed||{}).length;
+    return `<div class="rank-row ${isMe?'me':''}"><div class="rank-pos ${posClass}">${posIcon}</div><div class="rank-avatar">${initial}</div><div class="rank-info"><div class="rank-name">${name}${isMe?' (Tú)':''}</div><div class="rank-sub">${completedCount} lecciones · Racha ${u.streak}</div></div><div class="rank-xp">${u.xp} XP</div></div>`;
   }).join('');
 }
 
 function switchNav(screen) {
-  ['home','ranking','profile'].forEach(s => {
-    ['', '2', '3'].forEach(suffix => {
-      const btn = document.getElementById(`nav-${s}${suffix}`);
-      if (btn) btn.classList.toggle('active', s === screen);
-    });
-  });
+  if(speedTimer&&screen!=='speed'){clearInterval(speedTimer);speedTimer=null;}
+  const screens=['home','speed','ai','ranking','profile'];
+  const suffixes=['','2','3','4','5'];
+  screens.forEach(s=>suffixes.forEach(sfx=>{const b=document.getElementById(`nav-${s}${sfx}`);if(b)b.classList.toggle('active',s===screen);}));
   showScreen(screen);
-  if (screen === 'home') renderHome();
-  if (screen === 'ranking') renderRanking();
-  if (screen === 'profile') renderProfile();
+  if(screen==='home')renderHome();
+  if(screen==='ranking')renderRanking();
+  if(screen==='profile')renderProfile();
+  if(screen==='speed'){
+    document.getElementById('speed-intro-view').style.display='block';
+    document.getElementById('speed-game-view').style.display='none';
+    document.getElementById('speed-result-view').style.display='none';
+  }
 }
 
-function isUnlocked(unit) { return unit.req.every(r => state.completed[r]); }
+function isUnlocked(unit){return unit.req.every(r=>state.completed[r]);}
 
 function renderHome() {
-  const display = state.username || currentUser?.email || '';
-  const initial = (state.username || currentUser?.email || '?').charAt(0).toUpperCase();
-  document.getElementById('user-avatar').textContent = initial;
-  document.getElementById('user-name').textContent = display;
-  document.getElementById('home-xp').textContent = state.xp + ' XP';
-  document.getElementById('home-lives').textContent = state.lives;
-  document.getElementById('home-streak').textContent = state.streak;
-  [1,2,3].forEach(tier => {
-    const grid = document.getElementById('grid-' + tier);
-    grid.innerHTML = '';
-    UNITS.filter(u => u.tier === tier).forEach(u => {
-      const done = !!state.completed[u.id];
-      const unlocked = isUnlocked(u);
-      const card = document.createElement('div');
-      card.className = 'unit-card' + (done?' completed':'') + (!unlocked?' locked':'');
-      const badgeClass = done?'badge-done':(!unlocked?'badge-locked':tier===3?'badge-hard':'badge-new');
-      const badgeText = done?'✓ Listo':(!unlocked?'🔒':tier===3?'Avanzado':'Nuevo');
-      card.innerHTML = `<span class="unit-badge ${badgeClass}">${badgeText}</span><div class="unit-icon">${u.icon}</div><div class="unit-name">${u.name}</div><div class="unit-meta">${done?'★★★':(unlocked?'☆☆☆':'— — —')}</div>`;
-      if (unlocked) card.addEventListener('click', () => startUnit(u.id));
+  const display=state.username||currentUser?.email||'', initial=(state.username||currentUser?.email||'?').charAt(0).toUpperCase();
+  document.getElementById('user-avatar').textContent=initial;
+  document.getElementById('user-name').textContent=display;
+  document.getElementById('home-xp').textContent=state.xp+' XP';
+  document.getElementById('home-lives').textContent=state.lives;
+  document.getElementById('home-streak').textContent=state.streak;
+  [1,2,3].forEach(tier=>{
+    const grid=document.getElementById('grid-'+tier); grid.innerHTML='';
+    UNITS.filter(u=>u.tier===tier).forEach(u=>{
+      const done=!!state.completed[u.id], unlocked=isUnlocked(u);
+      const card=document.createElement('div');
+      card.className='unit-card'+(done?' completed':'')+((!unlocked)?' locked':'');
+      const badgeClass=done?'badge-done':(!unlocked?'badge-locked':tier===3?'badge-hard':'badge-new');
+      const badgeText=done?'✓ Listo':(!unlocked?'🔒':tier===3?'Avanzado':'Nuevo');
+      card.innerHTML=`<span class="unit-badge ${badgeClass}">${badgeText}</span><div class="unit-icon">${u.icon}</div><div class="unit-name">${u.name}</div><div class="unit-meta">${done?'★★★':(unlocked?'☆☆☆':'— — —')}</div>`;
+      if(unlocked)card.addEventListener('click',()=>startUnit(u.id));
       grid.appendChild(card);
     });
   });
 }
 
 function renderProfile() {
-  const display = state.username || currentUser?.email || 'Usuario';
-  const initial = display.charAt(0).toUpperCase();
-  const completedCount = Object.keys(state.completed).length;
-  document.getElementById('profile-avatar-big').textContent = initial;
-  document.getElementById('profile-display-name').textContent = display;
-  document.getElementById('profile-email').textContent = currentUser?.email || '';
-  document.getElementById('profile-xp').textContent = state.xp;
-  document.getElementById('profile-streak').textContent = state.streak;
-  document.getElementById('profile-completed').textContent = completedCount + '/11';
-  document.getElementById('profile-level').textContent = getLevel(state.xp);
-  document.getElementById('profile-username-input').value = state.username || '';
-  const list = document.getElementById('lessons-list');
-  list.innerHTML = '';
-  UNITS.forEach(u => {
-    const done = !!state.completed[u.id];
-    const unlocked = isUnlocked(u);
-    const statusClass = done ? 'status-done' : (!unlocked ? 'status-locked' : 'status-available');
-    const statusText = done ? '✓ Completada' : (!unlocked ? '🔒 Bloqueada' : '▶ Disponible');
-    list.innerHTML += `<div class="lesson-row"><div class="lesson-info"><span class="lesson-icon">${u.icon}</span><span class="lesson-name">${u.name}</span></div><span class="lesson-status ${statusClass}">${statusText}</span></div>`;
+  const display=state.username||currentUser?.email||'Usuario', initial=display.charAt(0).toUpperCase();
+  const completedCount=Object.keys(state.completed).length;
+  document.getElementById('profile-avatar-big').textContent=initial;
+  document.getElementById('profile-display-name').textContent=display;
+  document.getElementById('profile-email').textContent=currentUser?.email||'';
+  document.getElementById('profile-xp').textContent=state.xp;
+  document.getElementById('profile-streak').textContent=state.streak;
+  document.getElementById('profile-completed').textContent=completedCount+'/11';
+  document.getElementById('profile-level').textContent=getLevel(state.xp);
+  document.getElementById('profile-username-input').value=state.username||'';
+  const list=document.getElementById('lessons-list'); list.innerHTML='';
+  UNITS.forEach(u=>{
+    const done=!!state.completed[u.id], unlocked=isUnlocked(u);
+    const statusClass=done?'status-done':(!unlocked?'status-locked':'status-available');
+    const statusText=done?'✓ Completada':(!unlocked?'🔒 Bloqueada':'▶ Disponible');
+    list.innerHTML+=`<div class="lesson-row"><div class="lesson-info"><span class="lesson-icon">${u.icon}</span><span class="lesson-name">${u.name}</span></div><span class="lesson-status ${statusClass}">${statusText}</span></div>`;
   });
 }
 
-function startUnit(id) {
-  state.currentUnit=id; state.qIndex=0; state.correct=0; state.answered=false; state.selectedAnswer=null;
-  showScreen('exercise'); renderQuestion();
-}
+function startUnit(id){state.currentUnit=id;state.qIndex=0;state.correct=0;state.answered=false;state.selectedAnswer=null;showScreen('exercise');renderQuestion();}
 
-function renderQuestion() {
-  const unit = UNITS.find(u => u.id===state.currentUnit);
-  const q = unit.questions[state.qIndex];
-  const total = unit.questions.length;
-  document.getElementById('ex-lives').textContent = state.lives;
-  document.getElementById('progress-bar').style.width = (state.qIndex/total*100)+'%';
-  document.getElementById('q-label').textContent = `PREGUNTA ${state.qIndex+1} DE ${total}`;
-  document.getElementById('q-text').textContent = q.text;
-  document.getElementById('feedback-bar').className = 'feedback-bar';
-  document.getElementById('check-btn').textContent = 'Comprobar';
-  document.getElementById('check-btn').disabled = true;
-  state.answered=false; state.selectedAnswer=null;
-  const body = document.getElementById('q-body');
-  if (q.type==='choice') {
-    const shuffled = [...q.choices].sort(()=>Math.random()-0.5);
-    body.innerHTML = `<div class="choices-grid">${shuffled.map(c=>`<button class="choice-btn" onclick="selectChoice(this,${c})">${c}</button>`).join('')}</div>`;
+function renderQuestion(){
+  const unit=UNITS.find(u=>u.id===state.currentUnit), q=unit.questions[state.qIndex], total=unit.questions.length;
+  document.getElementById('ex-lives').textContent=state.lives;
+  document.getElementById('progress-bar').style.width=(state.qIndex/total*100)+'%';
+  document.getElementById('q-label').textContent=`PREGUNTA ${state.qIndex+1} DE ${total}`;
+  document.getElementById('q-text').textContent=q.text;
+  document.getElementById('feedback-bar').className='feedback-bar';
+  document.getElementById('check-btn').textContent='Comprobar';
+  document.getElementById('check-btn').disabled=true;
+  state.answered=false;state.selectedAnswer=null;
+  const body=document.getElementById('q-body');
+  if(q.type==='choice'){
+    const shuffled=[...q.choices].sort(()=>Math.random()-0.5);
+    body.innerHTML=`<div class="choices-grid">${shuffled.map(c=>`<button class="choice-btn" onclick="selectChoice(this,${c})">${c}</button>`).join('')}</div>`;
   } else {
-    body.innerHTML = `<input class="fill-input" type="number" id="fill-input" placeholder="?" oninput="onFillInput(this)" />`;
+    body.innerHTML=`<input class="fill-input" type="number" id="fill-input" placeholder="?" oninput="onFillInput(this)" />`;
     setTimeout(()=>document.getElementById('fill-input')?.focus(),50);
   }
 }
 
-function selectChoice(btn, val) {
-  if (state.answered) return;
-  document.querySelectorAll('.choice-btn').forEach(b=>{ b.style.borderColor=''; b.style.background=''; b.style.color=''; });
-  btn.style.borderColor='#1D9E75'; btn.style.background='#f0fdf4'; btn.style.color='#1D9E75';
-  state.selectedAnswer=val; document.getElementById('check-btn').disabled=false;
+function selectChoice(btn,val){
+  if(state.answered)return;
+  document.querySelectorAll('.choice-btn').forEach(b=>{b.style.borderColor='';b.style.background='';b.style.color='';});
+  btn.style.borderColor='#1D9E75';btn.style.background='#f0fdf4';btn.style.color='#1D9E75';
+  state.selectedAnswer=val;document.getElementById('check-btn').disabled=false;
 }
 
-function onFillInput(input) {
-  document.getElementById('check-btn').disabled = input.value.trim()==='';
-  state.selectedAnswer = input.value.trim()==='' ? null : Number(input.value);
+function onFillInput(input){
+  document.getElementById('check-btn').disabled=input.value.trim()==='';
+  state.selectedAnswer=input.value.trim()===''?null:Number(input.value);
 }
 
-function checkAnswer() {
-  if (state.answered) { nextQuestion(); return; }
+function checkAnswer(){
+  if(state.answered){nextQuestion();return;}
   state.answered=true;
-  const unit = UNITS.find(u=>u.id===state.currentUnit);
-  const q = unit.questions[state.qIndex];
-  const correct = Math.abs(Number(state.selectedAnswer)-Number(q.answer))<0.001;
-  const fb = document.getElementById('feedback-bar');
-  if (correct) {
-    state.correct++;
-    fb.className='feedback-bar correct-fb';
+  const unit=UNITS.find(u=>u.id===state.currentUnit), q=unit.questions[state.qIndex];
+  const correct=Math.abs(Number(state.selectedAnswer)-Number(q.answer))<0.001;
+  const fb=document.getElementById('feedback-bar');
+  if(correct){
+    state.correct++;fb.className='feedback-bar correct-fb';
     document.getElementById('fb-icon').className='ti ti-circle-check';
     document.getElementById('fb-text').textContent='¡Correcto! 🎉';
-    if (q.type==='choice') { document.querySelectorAll('.choice-btn').forEach(b=>{ if(Math.abs(Number(b.textContent)-Number(q.answer))<0.001) b.classList.add('correct'); }); }
-    else { const inp=document.getElementById('fill-input'); if(inp){inp.style.borderColor='#16a34a';inp.style.background='#dcfce7';} }
+    if(q.type==='choice'){document.querySelectorAll('.choice-btn').forEach(b=>{if(Math.abs(Number(b.textContent)-Number(q.answer))<0.001)b.classList.add('correct');});}
+    else{const inp=document.getElementById('fill-input');if(inp){inp.style.borderColor='#16a34a';inp.style.background='#dcfce7';}}
     showXpToast('+10 XP');
   } else {
     state.lives=Math.max(0,state.lives-1);
@@ -634,23 +927,21 @@ function checkAnswer() {
     fb.className='feedback-bar wrong-fb';
     document.getElementById('fb-icon').className='ti ti-circle-x';
     document.getElementById('fb-text').textContent=`Incorrecto. La respuesta era ${q.answer}`;
-    if (q.type==='choice') { document.querySelectorAll('.choice-btn').forEach(b=>{ if(Math.abs(Number(b.textContent)-Number(q.answer))<0.001) b.classList.add('correct'); else if(Math.abs(Number(b.textContent)-Number(state.selectedAnswer))<0.001) b.classList.add('wrong'); }); }
-    else { const inp=document.getElementById('fill-input'); if(inp){inp.style.borderColor='#dc2626';inp.style.background='#fee2e2';} }
+    if(q.type==='choice'){document.querySelectorAll('.choice-btn').forEach(b=>{if(Math.abs(Number(b.textContent)-Number(q.answer))<0.001)b.classList.add('correct');else if(Math.abs(Number(b.textContent)-Number(state.selectedAnswer))<0.001)b.classList.add('wrong');});}
+    else{const inp=document.getElementById('fill-input');if(inp){inp.style.borderColor='#dc2626';inp.style.background='#fee2e2';}}
   }
   document.querySelectorAll('.choice-btn, .fill-input').forEach(el=>el.disabled=true);
-  const btn=document.getElementById('check-btn'); btn.textContent='Siguiente →'; btn.disabled=false;
+  const btn=document.getElementById('check-btn');btn.textContent='Siguiente →';btn.disabled=false;
 }
 
-function nextQuestion() {
-  const unit=UNITS.find(u=>u.id===state.currentUnit); state.qIndex++;
-  if (state.qIndex>=unit.questions.length||state.lives===0) finishLesson(); else renderQuestion();
+function nextQuestion(){
+  const unit=UNITS.find(u=>u.id===state.currentUnit);state.qIndex++;
+  if(state.qIndex>=unit.questions.length||state.lives===0)finishLesson();else renderQuestion();
 }
 
-function finishLesson() {
-  const unit=UNITS.find(u=>u.id===state.currentUnit);
-  const total=unit.questions.length;
-  const won=state.correct>=Math.ceil(total*0.6);
-  const xpEarned=state.correct*10;
+function finishLesson(){
+  const unit=UNITS.find(u=>u.id===state.currentUnit), total=unit.questions.length;
+  const won=state.correct>=Math.ceil(total*0.6), xpEarned=state.correct*10;
   state.xp+=xpEarned;
   if(won){state.streak++;state.completed[state.currentUnit]=true;}else state.streak=Math.max(0,state.streak-1);
   saveProfile();
@@ -663,11 +954,11 @@ function finishLesson() {
   showScreen('result');
 }
 
-function showXpToast(msg) { const t=document.getElementById('xp-toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1500); }
-function retryLesson() { startUnit(state.currentUnit); }
-function goHome() { if(state.lives===0)state.lives=5; switchNav('home'); }
-function showScreen(id) { document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
-if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
+function showXpToast(msg){const t=document.getElementById('xp-toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1500);}
+function retryLesson(){startUnit(state.currentUnit);}
+function goHome(){if(state.lives===0)state.lives=5;switchNav('home');}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js');
 </script>
 </body>
 </html>
