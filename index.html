@@ -328,7 +328,7 @@ async function handleAuth() {
 }
 
 async function loginGoogle() {
-  await sbClient.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.origin } });
+  await sbClient.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: 'https://edutech-dusky-ten.vercel.app' } });
 }
 
 async function logout() {
