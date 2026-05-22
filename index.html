@@ -423,6 +423,7 @@
       <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-bar" style="width:0%"></div></div>
       <div class="stat-pill lives"><i class="ti ti-heart"></i><span id="ex-lives">5</span></div>
     </div>
+    <div id="unit-timer" style="display:none;text-align:center;font-size:1.4rem;font-weight:bold;color:#f59e0b;margin-bottom:8px;">⏱️ <span id="unit-timer-count">30</span>s</div>
     <div class="question-area">
       <p class="question-label" id="q-label">PREGUNTA</p>
       <p class="question-text" id="q-text"></p>
@@ -536,7 +537,7 @@ const UNITS = [
     {type:'choice',text:'Diámetro círculo radio 7 = ?',answer:14,choices:[7,10,14,21]},
     {type:'choice',text:'Perímetro cuadrado lado 9 = ?',answer:36,choices:[18,27,36,45]},
   ]},
-  { id:'suma_z1', name:'Suma Directa Z1', icon:'➕', tier:1, req:[], questions:[
+  { id:'suma_z1', name:'Suma Directa Z1', icon:'➕', tier:1, req:[], timeLimit:30, questions:[
   {type:'choice',text:'3 + 4 = ?',answer:7,choices:[6,7,8,9]},
   {type:'choice',text:'2 + 6 = ?',answer:8,choices:[7,8,9,10]},
   {type:'choice',text:'1 + 8 = ?',answer:9,choices:[7,8,9,10]},
@@ -548,31 +549,7 @@ const UNITS = [
   {type:'choice',text:'5 + 6 = ?',answer:11,choices:[9,10,11,12]},
   {type:'choice',text:'7 + 6 = ?',answer:13,choices:[11,12,13,14]},
 ]},
-{ id:'suma_z1_rapido', name:'Suma Z1 Rápido', icon:'⚡', tier:1, req:['suma_z1'], timeLimit:30, questions:[
-  {type:'choice',text:'3 + 4 = ?',answer:7,choices:[6,7,8,9]},
-  {type:'choice',text:'2 + 6 = ?',answer:8,choices:[7,8,9,10]},
-  {type:'choice',text:'1 + 8 = ?',answer:9,choices:[7,8,9,10]},
-  {type:'choice',text:'4 + 2 = ?',answer:6,choices:[5,6,7,8]},
-  {type:'choice',text:'7 + 3 = ?',answer:10,choices:[8,9,10,11]},
-  {type:'choice',text:'2 + 5 = ?',answer:7,choices:[6,7,8,9]},
-  {type:'choice',text:'9 + 8 = ?',answer:17,choices:[15,16,17,18]},
-  {type:'choice',text:'8 + 3 = ?',answer:11,choices:[9,10,11,12]},
-  {type:'choice',text:'5 + 6 = ?',answer:11,choices:[9,10,11,12]},
-  {type:'choice',text:'7 + 6 = ?',answer:13,choices:[11,12,13,14]},
-]},
-{ id:'suma_z2', name:'Suma Directa Z2', icon:'➕➕', tier:1, req:['suma_z1'], questions:[
-  {type:'choice',text:'3 + 4 + 3 = ?',answer:10,choices:[8,9,10,11]},
-  {type:'choice',text:'2 + 6 + 4 = ?',answer:12,choices:[10,11,12,13]},
-  {type:'choice',text:'1 + 8 + 2 = ?',answer:11,choices:[9,10,11,12]},
-  {type:'choice',text:'4 + 2 + 5 = ?',answer:11,choices:[9,10,11,12]},
-  {type:'choice',text:'7 + 3 + 6 = ?',answer:16,choices:[14,15,16,17]},
-  {type:'choice',text:'2 + 5 + 9 = ?',answer:16,choices:[14,15,16,17]},
-  {type:'choice',text:'9 + 8 + 2 = ?',answer:19,choices:[17,18,19,20]},
-  {type:'choice',text:'8 + 3 + 6 = ?',answer:17,choices:[15,16,17,18]},
-  {type:'choice',text:'5 + 6 + 8 = ?',answer:19,choices:[17,18,19,20]},
-  {type:'choice',text:'7 + 6 + 5 = ?',answer:18,choices:[16,17,18,19]},
-]},
-{ id:'suma_z2_rapido', name:'Suma Z2 Rápido', icon:'⚡⚡', tier:1, req:['suma_z2'], timeLimit:30, questions:[
+{ id:'suma_z2', name:'Suma Directa Z2', icon:'➕➕', tier:1, req:['suma_z1'], timeLimit:30, questions:[
   {type:'choice',text:'3 + 4 + 3 = ?',answer:10,choices:[8,9,10,11]},
   {type:'choice',text:'2 + 6 + 4 = ?',answer:12,choices:[10,11,12,13]},
   {type:'choice',text:'1 + 8 + 2 = ?',answer:11,choices:[9,10,11,12]},
@@ -958,7 +935,59 @@ function renderProfile() {
   });
 }
 
-function startUnit(id){state.currentUnit=id;state.qIndex=0;state.correct=0;state.answered=false;state.selectedAnswer=null;showScreen('exercise');renderQuestion();}
+let unitTimer = null;
+let unitTimeLeft = 0;
+
+function startUnit(id){
+  state.currentUnit=id;
+  state.qIndex=0;
+  state.correct=0;
+  state.answered=false;
+  state.selectedAnswer=null;
+  if(unitTimer){clearInterval(unitTimer);unitTimer=null;}
+  const unit=UNITS.find(u=>u.id===id);
+  if(unit.timeLimit){
+    unitTimeLeft=unit.timeLimit;
+    showScreen('exercise');
+    renderQuestion();
+    startUnitTimer();
+  } else {
+    showScreen('exercise');
+    renderQuestion();
+  }
+}
+
+function startUnitTimer(){
+  const timerEl = document.getElementById('unit-timer');
+  if(timerEl) timerEl.style.display='block';
+  updateUnitTimerDisplay();
+  unitTimer = setInterval(()=>{
+    unitTimeLeft--;
+    updateUnitTimerDisplay();
+    if(unitTimeLeft<=0){
+      clearInterval(unitTimer);unitTimer=null;
+      endUnitByTimer();
+    }
+  },1000);
+}
+
+function updateUnitTimerDisplay(){
+  const timerEl=document.getElementById('unit-timer-count');
+  if(timerEl) timerEl.textContent=unitTimeLeft;
+}
+
+function endUnitByTimer(){
+  const unit=UNITS.find(u=>u.id===state.currentUnit);
+  const total=unit.questions.length;
+  setTimeout(()=>{
+    showScreen('result');
+    document.getElementById('result-icon').textContent='⏱️';
+    document.getElementById('result-title').textContent='¡Tiempo!';
+    document.getElementById('result-sub').textContent=`Respondiste ${state.correct} de ${total} correctamente`;
+    document.getElementById('r-correct').textContent=state.correct;
+    document.getElementById('r-wrong').textContent=total-state.correct;
+    const xp=state.correct*10;
+    document.getElementById('r-xp')
 
 function renderQuestion(){
   const unit=UNITS.find(u=>u.id===state.currentUnit), q=unit.questions[state.qIndex], total=unit.questions.length;
