@@ -987,7 +987,10 @@ function endUnitByTimer(){
     document.getElementById('r-correct').textContent=state.correct;
     document.getElementById('r-wrong').textContent=total-state.correct;
     const xp=state.correct*10;
-    document.getElementById('r-xp')
+    document.getElementById('r-xp').textContent='+'+xp;
+    state.xp+=xp; saveProfile();
+  },500);
+}
 
 function renderQuestion(){
   const unit=UNITS.find(u=>u.id===state.currentUnit), q=unit.questions[state.qIndex], total=unit.questions.length;
