@@ -561,7 +561,7 @@ const UNITS = [
   {type:'choice',text:'5 + 6 + 8 = ?',answer:19,choices:[17,18,19,20]},
   {type:'choice',text:'7 + 6 + 5 = ?',answer:18,choices:[16,17,18,19]},
 ]},
-{ id:'completar_z1', name:'Completar Z1', icon:'🔢', tier:2, req:['suma_z1'], questions:[
+{ id:'completar_z1', name:'Completar Z1', icon:'🔢', tier:2, req:['suma_z1'], timeLimit:30, questions:[
   {type:'fill',text:'3 + ___ = 12',answer:9},
   {type:'fill',text:'___ + 6 = 9',answer:3},
   {type:'fill',text:'7 + ___ = 16',answer:9},
@@ -573,7 +573,7 @@ const UNITS = [
   {type:'fill',text:'___ + 6 = 14',answer:8},
   {type:'fill',text:'7 + ___ = 15',answer:8},
 ]},
-{ id:'completar_z2', name:'Completar Z2', icon:'🔢🔢', tier:2, req:['completar_z1'], questions:[
+{ id:'completar_z2', name:'Completar Z2', icon:'🔢🔢', tier:2, req:['completar_z1'], timeLimit:30, questions:[
   {type:'fill',text:'3 + 4 + ___ = 16',answer:9},
   {type:'fill',text:'___ + 6 + 4 = 19',answer:9},
   {type:'fill',text:'8 + ___ + 2 = 15',answer:5},
