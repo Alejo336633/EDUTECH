@@ -975,12 +975,14 @@ function showUnitModeSelector(id){
 function startUnitMode(id, timed){
   const overlay=document.getElementById('mode-selector-overlay');
   if(overlay) overlay.remove();
+  const unit=UNITS.find(u=>u.id===id);
   state.currentUnit=id;
   state.qIndex=0;
   state.correct=0;
   state.answered=false;
   state.selectedAnswer=null;
   if(unitTimer){clearInterval(unitTimer);unitTimer=null;}
+  if(timed){ unitTimeLeft=unit.timeLimit; }
   showScreen('exercise');
   renderQuestion();
   if(timed) startUnitTimer();
