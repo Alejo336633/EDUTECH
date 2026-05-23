@@ -939,21 +939,54 @@ let unitTimer = null;
 let unitTimeLeft = 0;
 
 function startUnit(id){
+  const unit=UNITS.find(u=>u.id===id);
+  if(unit.timeLimit){
+    showUnitModeSelector(id);
+  } else {
+    state.currentUnit=id;
+    state.qIndex=0;
+    state.correct=0;
+    state.answered=false;
+    state.selectedAnswer=null;
+    if(unitTimer){clearInterval(unitTimer);unitTimer=null;}
+    showScreen('exercise');
+    renderQuestion();
+  }
+}
+
+function showUnitModeSelector(id){
+  const unit=UNITS.find(u=>u.id===id);
+  const existing=document.getElementById('mode-selector-overlay');
+  if(existing) existing.remove();
+  const overlay=document.createElement('div');
+  overlay.id='mode-selector-overlay';
+  overlay.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:9999;';
+  overlay.innerHTML=`
+    <div style="background:#1e1e2e;border-radius:20px;padding:32px;width:300px;text-align:center;">
+      <h2 style="color:#fff;margin-bottom:8px;">${unit.icon} ${unit.name}</h2>
+      <p style="color:#9ca3af;margin-bottom:24px;">¿Cómo quieres practicar?</p>
+      <button onclick="startUnitMode('${id}',false)" style="width:100%;padding:14px;margin-bottom:12px;border-radius:12px;border:none;background:#4f46e5;color:#fff;font-size:1rem;font-weight:600;cursor:pointer;">📝 Sin tiempo</button>
+      <button onclick="startUnitMode('${id}',true)" style="width:100%;padding:14px;border-radius:12px;border:none;background:#f59e0b;color:#fff;font-size:1rem;font-weight:600;cursor:pointer;">⚡ Contrarreloj (${unit.timeLimit}s)</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+}
+
+function startUnitMode(id, timed){
+  const overlay=document.getElementById('mode-selector-overlay');
+  if(overlay) overlay.remove();
   state.currentUnit=id;
   state.qIndex=0;
   state.correct=0;
   state.answered=false;
   state.selectedAnswer=null;
   if(unitTimer){clearInterval(unitTimer);unitTimer=null;}
-  const unit=UNITS.find(u=>u.id===id);
-  if(unit.timeLimit){
-    unitTimeLeft=unit.timeLimit;
-    showScreen('exercise');
-    renderQuestion();
-    startUnitTimer();
-  } else {
-    showScreen('exercise');
-    renderQuestion();
+  showScreen('exercise');
+  renderQuestion();
+  if(timed) startUnitTimer();
+  else {
+    const timerEl=document.getElementById('unit-timer');
+    if(timerEl) timerEl.style.display='none';
   }
 }
 
