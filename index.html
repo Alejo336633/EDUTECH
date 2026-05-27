@@ -607,10 +607,11 @@ function getLevel(xp) {
   return '🌱 Nivel 1 — Principiante';
 }
 
-sbClient.auth.getSession().then(async ({data:{session}}) => {
+setTimeout(async () => {
+  const {data:{session}} = await sbClient.auth.getSession();
   if(session?.user){ currentUser=session.user; await loadProfile(); showScreen('home'); renderHome(); }
   else{ showScreen('auth'); }
-});
+}, 100);
 
 function switchTab(mode) {
   authMode = mode;
