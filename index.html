@@ -607,7 +607,7 @@ function getLevel(xp) {
   return '🌱 Nivel 1 — Principiante';
 }
 
-(async () => {
+window.addEventListener('DOMContentLoaded', async () => {
   try {
     const savedSession = localStorage.getItem('edutech_session');
     if(savedSession){
@@ -632,7 +632,7 @@ function getLevel(xp) {
     localStorage.removeItem('edutech_session');
     showScreen('auth');
   }
-})();
+});
 
 sbClient.auth.onAuthStateChange(async (event, session) => {
   if(event==='SIGNED_OUT'){ currentUser=null; showScreen('auth'); }
