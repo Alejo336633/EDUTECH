@@ -616,18 +616,15 @@ function getLevel(xp) {
         access_token: session.access_token,
         refresh_token: session.refresh_token
       });
-      if(error) localStorage.removeItem('edutech_session');
+      if(!error){
+        const {data:{session:newSession}} = await sbClient.auth.getSession();
+        if(newSession?.user){ currentUser=newSession.user; await loadProfile(); showScreen('home'); renderHome(); return; }
+      }
+      localStorage.removeItem('edutech_session');
     }
   } catch(e) { localStorage.removeItem('edutech_session'); }
-  const {data:{session}} = await sbClient.auth.getSession();
-  if(session?.user){ currentUser=session.user; await loadProfile(); showScreen('home'); renderHome(); }
-  else{ showScreen('auth'); }
+  showScreen('auth');
 })();
-
-sbClient.auth.getSession().then(async ({data:{session}})=>{
-  if(session?.user){ currentUser=session.user; await loadProfile(); showScreen('home'); renderHome(); }
-  else{ showScreen('auth'); }
-});
 
 sbClient.auth.onAuthStateChange(async (event, session) => {
   if(event==='SIGNED_OUT'){ currentUser=null; showScreen('auth'); }
