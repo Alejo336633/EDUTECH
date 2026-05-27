@@ -607,31 +607,9 @@ function getLevel(xp) {
   return '🌱 Nivel 1 — Principiante';
 }
 
-window.addEventListener('DOMContentLoaded', async () => {
-  try {
-    const savedSession = localStorage.getItem('edutech_session');
-    if(savedSession){
-      const session = JSON.parse(savedSession);
-      await sbClient.auth.setSession({
-        access_token: session.access_token,
-        refresh_token: session.refresh_token
-      });
-      const {data, error} = await sbClient.auth.refreshSession();
-      if(!error && data?.session?.user){
-        currentUser = data.session.user;
-        localStorage.setItem('edutech_session', JSON.stringify(data.session));
-        await loadProfile();
-        showScreen('home');
-        renderHome();
-        return;
-      }
-      localStorage.removeItem('edutech_session');
-    }
-    showScreen('auth');
-  } catch(e) {
-    localStorage.removeItem('edutech_session');
-    showScreen('auth');
-  }
+sbClient.auth.getSession().then(async ({data:{session}}) => {
+  if(session?.user){ currentUser=session.user; await loadProfile(); showScreen('home'); renderHome(); }
+  else{ showScreen('auth'); }
 });
 
 sbClient.auth.onAuthStateChange(async (event, session) => {
@@ -667,7 +645,6 @@ async function handleAuth() {
       btn.disabled=false; btn.textContent='Iniciar sesión';
     } else {
       currentUser=data.user;
-localStorage.setItem('edutech_session', JSON.stringify(data.session));
       await loadProfile();
       showScreen('home');
       renderHome();
