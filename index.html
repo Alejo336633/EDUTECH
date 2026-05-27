@@ -654,7 +654,26 @@ async function logout() { await sbClient.auth.signOut(); state={xp:0,lives:5,str
 
 async function loadProfile() {
   const {data}=await sbClient.from('profiles').select('*').eq('id',currentUser.id).single();
-  if(data){state.xp=data.xp||0;state.lives=data.lives||5;state.streak=data.streak||0;state.completed=data.completed||{};state.username=data.username||'';}
+  if(data){
+    state.xp=data.xp||0;
+    state.lives=data.lives||5;
+    state.streak=data.streak||0;
+    state.completed=data.completed||{};
+    state.username=data.username||'';
+    state.livesLastLost=data.lives_last_lost||null;
+    // Recarga de vidas: 1 cada 3 horas, máximo 5
+    if(state.lives < 5 && state.livesLastLost){
+      const now = new Date();
+      const lastLost = new Date(state.livesLastLost);
+      const hoursElapsed = (now - lastLost) / (1000 * 60 * 60);
+      const livesToRestore = Math.floor(hoursElapsed / 3);
+      if(livesToRestore > 0){
+        state.lives = Math.min(5, state.lives + livesToRestore);
+        state.livesLastLost = livesToRestore >= 5 ? null : new Date(lastLost.getTime() + livesToRestore * 3 * 60 * 60 * 1000).toISOString();
+        await sbClient.from('profiles').update({lives:state.lives, lives_last_lost:state.livesLastLost}).eq('id',currentUser.id);
+      }
+    }
+  }
   else{await sbClient.from('profiles').insert({id:currentUser.id,email:currentUser.email,xp:0,lives:5,streak:0,completed:{},username:''});}
 }
 
@@ -1085,6 +1104,7 @@ function checkAnswer(){
     showXpToast('+10 XP');
   } else {
     state.lives=Math.max(0,state.lives-1);
+if(state.lives < 5) state.livesLastLost = new Date().toISOString();
     document.getElementById('ex-lives').textContent=state.lives;
     fb.className='feedback-bar wrong-fb';
     document.getElementById('fb-icon').className='ti ti-circle-x';
