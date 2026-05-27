@@ -618,12 +618,21 @@ function getLevel(xp) {
       });
       if(!error){
         const {data:{session:newSession}} = await sbClient.auth.getSession();
-        if(newSession?.user){ currentUser=newSession.user; await loadProfile(); showScreen('home'); renderHome(); return; }
+        if(newSession?.user){ 
+          currentUser=newSession.user; 
+          await loadProfile(); 
+          showScreen('home'); 
+          renderHome(); 
+          return;
+        }
       }
       localStorage.removeItem('edutech_session');
     }
-  } catch(e) { localStorage.removeItem('edutech_session'); }
-  showScreen('auth');
+    showScreen('auth');
+  } catch(e) { 
+    localStorage.removeItem('edutech_session'); 
+    showScreen('auth'); 
+  }
 })();
 
 sbClient.auth.onAuthStateChange(async (event, session) => {
