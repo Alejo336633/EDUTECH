@@ -626,17 +626,27 @@ async function handleAuth() {
   const email=document.getElementById('auth-email').value.trim(), password=document.getElementById('auth-password').value;
   const errEl=document.getElementById('auth-error'), sucEl=document.getElementById('auth-success');
   errEl.style.display='none'; sucEl.style.display='none';
-  if (!email||!password){errEl.textContent='Por favor completa todos los campos.';errEl.style.display='block';return;}
+  if(!email||!password){errEl.textContent='Por favor completa todos los campos.';errEl.style.display='block';return;}
   const btn=document.getElementById('auth-btn'); btn.disabled=true; btn.textContent='Cargando...';
-  if (authMode==='register'){
+  if(authMode==='register'){
     const {error}=await sbClient.auth.signUp({email,password});
     if(error){errEl.textContent=error.message;errEl.style.display='block';}
     else{sucEl.textContent='¡Registro exitoso!';sucEl.style.display='block';}
+    btn.disabled=false; btn.textContent='Registrarse';
   } else {
-    const {error}=await sbClient.auth.signInWithPassword({email,password,options:{persistSession:true}});
-    if(error){errEl.textContent='Correo o contraseña incorrectos.';errEl.style.display='block';btn.disabled=false;btn.textContent='Iniciar sesión';}
+    const {data,error}=await sbClient.auth.signInWithPassword({email,password});
+    if(error){
+      errEl.textContent='Correo o contraseña incorrectos.';
+      errEl.style.display='block';
+      btn.disabled=false; btn.textContent='Iniciar sesión';
+    } else {
+      currentUser=data.user;
+      await loadProfile();
+      showScreen('home');
+      renderHome();
+      btn.disabled=false; btn.textContent='Iniciar sesión';
+    }
   }
-  btn.disabled=false; btn.textContent=authMode==='login'?'Iniciar sesión':'Registrarse';
 }
 
 async function loginGoogle() { await sbClient.auth.signInWithOAuth({provider:'google',options:{redirectTo:'https://edutech-dusky-ten.vercel.app'}}); }
