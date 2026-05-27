@@ -608,8 +608,9 @@ function getLevel(xp) {
 }
 
 sbClient.auth.onAuthStateChange(async (event, session) => {
-  if (session?.user) { currentUser = session.user; await loadProfile(); showScreen('home'); renderHome(); }
-  else { currentUser = null; showScreen('auth'); }
+  if(event === 'SIGNED_OUT'){ currentUser = null; showScreen('auth'); return; }
+  if(session?.user){ currentUser = session.user; await loadProfile(); showScreen('home'); renderHome(); }
+  else if(event === 'INITIAL_SESSION' && !session){ currentUser = null; showScreen('auth'); }
 });
 
 function switchTab(mode) {
