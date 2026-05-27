@@ -633,7 +633,7 @@ async function handleAuth() {
     else{sucEl.textContent='¡Registro exitoso!';sucEl.style.display='block';}
   } else {
     const {error}=await sbClient.auth.signInWithPassword({email,password,options:{persistSession:true}});
-    if(error){errEl.textContent='Correo o contraseña incorrectos.';errEl.style.display='block';}
+    if(error){errEl.textContent='Correo o contraseña incorrectos.';errEl.style.display='block';btn.disabled=false;btn.textContent='Iniciar sesión';}
   }
   btn.disabled=false; btn.textContent=authMode==='login'?'Iniciar sesión':'Registrarse';
 }
