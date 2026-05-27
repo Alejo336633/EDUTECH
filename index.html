@@ -611,7 +611,7 @@ setTimeout(async () => {
   const {data:{session}} = await sbClient.auth.getSession();
   if(session?.user){ currentUser=session.user; await loadProfile(); showScreen('home'); renderHome(); }
   else{ showScreen('auth'); }
-}, 100);
+}, 500);
 
 function switchTab(mode) {
   authMode = mode;
