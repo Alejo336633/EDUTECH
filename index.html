@@ -608,13 +608,17 @@ function getLevel(xp) {
 }
 
 (async () => {
-  const savedSession = localStorage.getItem('edutech_session');
-  if(savedSession){
-    try {
+  try {
+    const savedSession = localStorage.getItem('edutech_session');
+    if(savedSession){
       const session = JSON.parse(savedSession);
-      await sbClient.auth.setSession(session);
-    } catch(e) { localStorage.removeItem('edutech_session'); }
-  }
+      const {error} = await sbClient.auth.setSession({
+        access_token: session.access_token,
+        refresh_token: session.refresh_token
+      });
+      if(error) localStorage.removeItem('edutech_session');
+    }
+  } catch(e) { localStorage.removeItem('edutech_session'); }
   const {data:{session}} = await sbClient.auth.getSession();
   if(session?.user){ currentUser=session.user; await loadProfile(); showScreen('home'); renderHome(); }
   else{ showScreen('auth'); }
