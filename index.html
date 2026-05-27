@@ -607,6 +607,12 @@ function getLevel(xp) {
   return '🌱 Nivel 1 — Principiante';
 }
 
+const savedSession = localStorage.getItem('edutech_session');
+if(savedSession){
+  const session = JSON.parse(savedSession);
+  await sbClient.auth.setSession(session);
+}
+
 sbClient.auth.getSession().then(async ({data:{session}})=>{
   if(session?.user){ currentUser=session.user; await loadProfile(); showScreen('home'); renderHome(); }
   else{ showScreen('auth'); }
@@ -645,6 +651,7 @@ async function handleAuth() {
       btn.disabled=false; btn.textContent='Iniciar sesión';
     } else {
       currentUser=data.user;
+localStorage.setItem('edutech_session', JSON.stringify(data.session));
       await loadProfile();
       showScreen('home');
       renderHome();
