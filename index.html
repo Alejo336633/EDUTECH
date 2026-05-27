@@ -681,8 +681,7 @@ async function saveProfile() {
   if(!currentUser)return;
   const ind=document.getElementById('saving-indicator');
   if(ind)ind.textContent='Guardando...';
-  await sbClient.from('profiles').upsert({id:currentUser.id,email:currentUser.email,xp:state.xp,lives:state.lives,streak:state.streak,completed:state.completed,username:state.username,updated_at:new Date().toISOString()});
-  if(ind){ind.textContent='✓ Progreso guardado';setTimeout(()=>ind.textContent='',2000);}
+  await sbClient.from('profiles').upsert({id:currentUser.id,email:currentUser.email,xp:state.xp,lives:state.lives,streak:state.streak,completed:state.completed,username:state.username,lives_last_lost:state.livesLastLost||null,updated_at:new Date().toISOString()});
 }
 
 async function saveUsername() {
@@ -928,7 +927,21 @@ function renderHome() {
   document.getElementById('user-avatar').textContent=initial;
   document.getElementById('user-name').textContent=display;
   document.getElementById('home-xp').textContent=state.xp+' XP';
-  document.getElementById('home-lives').textContent=state.lives;
+  const livesEl = document.getElementById('home-lives');
+if(state.lives >= 5){
+  livesEl.textContent = '5 (Full)';
+} else if(state.livesLastLost) {
+  const now = new Date();
+  const lastLost = new Date(state.livesLastLost);
+  const msUntilNext = (3 * 60 * 60 * 1000) - ((now - lastLost) % (3 * 60 * 60 * 1000));
+  const h = Math.floor(msUntilNext / (1000 * 60 * 60));
+  const m = Math.floor((msUntilNext % (1000 * 60 * 60)) / (1000 * 60));
+  const s = Math.floor((msUntilNext % (1000 * 60)) / 1000);
+  livesEl.textContent = `${state.lives} (${h}h ${m}m ${s}s)`;
+  if(!window.livesCountdown) window.livesCountdown = setInterval(()=>renderHome(), 1000);
+} else {
+  livesEl.textContent = state.lives;
+}
   document.getElementById('home-streak').textContent=state.streak;
   [1,2,3].forEach(tier=>{
     const grid=document.getElementById('grid-'+tier); grid.innerHTML='';
