@@ -612,11 +612,6 @@ sbClient.auth.getSession().then(async ({data:{session}}) => {
   else{ showScreen('auth'); }
 });
 
-sbClient.auth.onAuthStateChange(async (event, session) => {
-  if(event==='SIGNED_OUT'){ currentUser=null; showScreen('auth'); }
-  else if(event==='SIGNED_IN' && session?.user){ currentUser=session.user; await loadProfile(); showScreen('home'); renderHome(); }
-});
-
 function switchTab(mode) {
   authMode = mode;
   document.getElementById('tab-login').classList.toggle('active', mode==='login');
