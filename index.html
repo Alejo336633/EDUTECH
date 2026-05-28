@@ -660,6 +660,7 @@ async function loadProfile() {
     state.streak=data.streak||0;
     state.completed=data.completed||{};
     state.username=data.username||'';
+    state.lastLessonDate=data.last_lesson_date||null;
     state.livesLastLost=data.lives_last_lost||null;
     // Recarga de vidas: 1 cada 3 horas, máximo 5
     if(state.lives < 5 && state.livesLastLost){
@@ -681,7 +682,7 @@ async function saveProfile() {
   if(!currentUser)return;
   const ind=document.getElementById('saving-indicator');
   if(ind)ind.textContent='Guardando...';
-  await sbClient.from('profiles').upsert({id:currentUser.id,email:currentUser.email,xp:state.xp,lives:state.lives,streak:state.streak,completed:state.completed,username:state.username,lives_last_lost:state.livesLastLost||null,updated_at:new Date().toISOString()});
+  await sbClient.from('profiles').upsert({id:currentUser.id,email:currentUser.email,xp:state.xp,lives:state.lives,streak:state.streak,completed:state.completed,username:state.username,lives_last_lost:state.livesLastLost||null,last_lesson_date:state.lastLessonDate||null,updated_at:new Date().toISOString()});
 }
 
 async function saveUsername() {
@@ -1138,7 +1139,26 @@ function finishLesson(){
   const unit=UNITS.find(u=>u.id===state.currentUnit), total=unit.questions.length;
   const won=state.correct>=Math.ceil(total*0.6), xpEarned=state.correct*10;
   state.xp+=xpEarned;
-  if(won){state.streak++;state.completed[state.currentUnit]=true;}else state.streak=Math.max(0,state.streak-1);
+  if(won){
+    state.completed[state.currentUnit]=true;
+    const today=new Date().toISOString().split('T')[0];
+    const lastDate=state.lastLessonDate||null;
+    if(lastDate===null){
+      state.streak=1;
+    } else {
+      const diff=(new Date(today)-new Date(lastDate))/(1000*60*60*24);
+      if(diff===1) state.streak++;
+      else if(diff>1) state.streak=1;
+      // diff===0 significa mismo día, no cambia la racha
+    }
+    state.lastLessonDate=today;
+  } else {
+    const today=new Date().toISOString().split('T')[0];
+    const lastDate=state.lastLessonDate||null;
+    if(lastDate && (new Date(today)-new Date(lastDate))/(1000*60*60*24)>1){
+      state.streak=0;
+    }
+  }
   saveProfile();
   document.getElementById('result-icon').textContent=won?'🎉':'😅';
   document.getElementById('result-title').textContent=won?'¡Lección completada!':'Sigue intentando';
